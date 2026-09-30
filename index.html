@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>TOM X JERRY ARENA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -9,64 +10,90 @@
 <h1>🔥 TOM X JERRY ARENA 🔥</h1>
 <p>Free Fire Tournament App</p>
 
-<h2>Player Login</h2>
+<h2>Player Join</h2>
 
-<input id="uid" placeholder="Enter UID">
+<input id="uid" type="text" placeholder="Enter UID">
 <br><br>
 
-<input id="name" placeholder="Enter Name">
+<input id="name" type="text" placeholder="Enter Name">
 <br><br>
 
-<button onclick="join()">Join Tournament</button>
+<button id="joinBtn">Join Tournament</button>
 
 <p id="msg"></p>
+
 
 <script>
 
 const SUPABASE_URL = "https://imowzilkumktnobpplulj.supabase.co";
 
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE;
+
+
+document.getElementById("joinBtn").addEventListener("click", join);
 
 
 async function join(){
 
-let uid = document.getElementById("uid").value;
-let name = document.getElementById("name").value;
+const uid = document.getElementById("uid").value.trim();
+const name = document.getElementById("name").value.trim();
+const msg = document.getElementById("msg");
 
-if(uid=="" || name==""){
-document.getElementById("msg").innerHTML="⚠️ Enter UID and Name";
+
+if(!uid || !name){
+msg.innerHTML = "⚠️ UID aur Name likho";
 return;
 }
 
-let response = await fetch(
+
+msg.innerHTML = "⏳ Please wait...";
+
+
+try{
+
+const response = await fetch(
 SUPABASE_URL + "/rest/v1/players",
 {
 method:"POST",
+
 headers:{
-"apikey":SUPABASE_KEY,
-"Authorization":"Bearer "+SUPABASE_KEY,
+"apikey": SUPABASE_KEY,
+"Authorization":"Bearer " + SUPABASE_KEY,
 "Content-Type":"application/json",
 "Prefer":"return=minimal"
 },
+
 body:JSON.stringify({
 uid:uid,
 name:name,
 phone:"0000000000",
 coins:100
 })
+
 });
 
 
 if(response.ok){
 
-document.getElementById("msg").innerHTML="✅ Joined Successfully";
+msg.innerHTML="✅ Tournament Joined";
+
+document.getElementById("uid").value="";
+document.getElementById("name").value="";
 
 }else{
 
-let error = await response.text();
-document.getElementById("msg").innerHTML="❌ Error: "+error;
+const error = await response.text();
+msg.innerHTML="❌ Error: " + error;
 
 }
+
+
+}catch(e){
+
+msg.innerHTML="❌ Connection Error";
+
+}
+
 
 }
 
