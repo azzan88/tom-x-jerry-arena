@@ -5,16 +5,56 @@
 </head>
 
 <body>
+
 <h1>🔥 TOM X JERRY ARENA 🔥</h1>
 <p>Free Fire Tournament App</p>
 
 <h2>Player Login</h2>
 
-<input type="text" placeholder="Enter UID">
+<input id="uid" placeholder="Enter UID">
 <br><br>
-<input type="text" placeholder="Enter Name">
+
+<input id="name" placeholder="Enter Name">
 <br><br>
-<button>Join Tournament</button>
+
+<button onclick="join()">Join Tournament</button>
+
+<p id="msg"></p>
+
+<script>
+const SUPABASE_URL = "https://imowzilkumktnobpplulj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_oDRYXWUL2rwL3V60xnvN4A_OE1gnctt";
+
+async function join(){
+
+let uid = document.getElementById("uid").value;
+let name = document.getElementById("name").value;
+
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/players",
+{
+method:"POST",
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+uid:uid,
+name:name,
+phone:"0000000000",
+coins:100
+})
+});
+
+if(response.ok){
+document.getElementById("msg").innerHTML="✅ Joined Successfully";
+}else{
+document.getElementById("msg").innerHTML="❌ Error";
+}
+
+}
+</script>
 
 </body>
-</html>
+</html>￼Enter
