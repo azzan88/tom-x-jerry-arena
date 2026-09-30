@@ -22,13 +22,21 @@
 <p id="msg"></p>
 
 <script>
+
 const SUPABASE_URL = "https://imowzilkumktnobpplulj.supabase.co";
-const SUPABASE_KEY = "sb_publishable_oDRYXWUL2rwL3V60xnvN4A_OE1gnctt";
+
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
+
 
 async function join(){
 
 let uid = document.getElementById("uid").value;
 let name = document.getElementById("name").value;
+
+if(uid=="" || name==""){
+document.getElementById("msg").innerHTML="⚠️ Enter UID and Name";
+return;
+}
 
 let response = await fetch(
 SUPABASE_URL + "/rest/v1/players",
@@ -37,7 +45,8 @@ method:"POST",
 headers:{
 "apikey":SUPABASE_KEY,
 "Authorization":"Bearer "+SUPABASE_KEY,
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+"Prefer":"return=minimal"
 },
 body:JSON.stringify({
 uid:uid,
@@ -47,13 +56,20 @@ coins:100
 })
 });
 
+
 if(response.ok){
+
 document.getElementById("msg").innerHTML="✅ Joined Successfully";
+
 }else{
-document.getElementById("msg").innerHTML="❌ Error";
+
+let error = await response.text();
+document.getElementById("msg").innerHTML="❌ Error: "+error;
+
 }
 
 }
+
 </script>
 
 </body>
