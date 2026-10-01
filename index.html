@@ -235,7 +235,8 @@ return;
 
 players.push({
 name:name,
-uid:uid
+uid:uid,
+coins:100
 });
 localStorage.setItem("players", JSON.stringify(players));
 
@@ -285,10 +286,13 @@ document.getElementById("playerList").style.display="block";
 
 let list="";
 
-players.forEach(function(p){
+players.forEach(function(p,i){
 
-list += "👤 Name: "+p.name+"<br>🆔 UID: "+p.uid+"<br><br>";
-
+list += 
+"👤 Name: "+p.name+
+"<br>🆔 UID: "+p.uid+
+"<br>💰 Coins: "+p.coins+
+"<br><button onclick='deletePlayer("+i+")'>❌ Delete</button><br><br>";
 });
 
 if(list==""){
@@ -298,6 +302,15 @@ list="No players added";
 document.getElementById("playersData").innerHTML=list;
 
 }
+  function deletePlayer(i){
+
+players.splice(i,1);
+
+localStorage.setItem("players", JSON.stringify(players));
+
+viewPlayers();
+
+  }
 function logout(){
 
 location.reload();
