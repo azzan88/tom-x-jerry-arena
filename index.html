@@ -27,7 +27,7 @@ color:white;
 width:90%;
 max-width:400px;
 background:#111;
-padding:30px;
+padding:25px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 25px red;
@@ -45,7 +45,6 @@ border:none;
 border-radius:10px;
 background:#222;
 color:white;
-font-size:16px;
 }
 
 button{
@@ -56,12 +55,8 @@ border:none;
 border-radius:10px;
 background:linear-gradient(45deg,#ff0000,#ff8800);
 color:white;
-font-size:18px;
+font-size:17px;
 font-weight:bold;
-}
-
-#dashboard{
-display:none;
 }
 
 .card{
@@ -71,8 +66,10 @@ border-radius:15px;
 margin-top:15px;
 }
 
-#msg{
-margin-top:15px;
+#dashboard,
+#tournamentBox,
+#matches{
+display:none;
 }
 
 </style>
@@ -107,13 +104,15 @@ LOGIN
 
 <p id="msg"></p>
 
-
 </div>
+
 
 
 <div id="dashboard">
 
-<h1>🔥 TOM X JERRY ARENA 🔥</h1>
+
+<h1>🔥 DASHBOARD 🔥</h1>
+
 
 <div class="card">
 
@@ -126,19 +125,62 @@ LOGIN
 </div>
 
 
-<button>
+
+<button onclick="showTournament()">
 🏆 JOIN TOURNAMENT
 </button>
 
 
-<button>
+<button onclick="showMatches()">
 🎮 MY MATCHES
 </button>
 
 
-<button>
+<button onclick="logout()">
 🚪 LOGOUT
 </button>
+
+
+
+<div id="tournamentBox">
+
+
+<div class="card">
+
+<h2>🔥 Free Fire Solo Tournament</h2>
+
+<p>💰 Entry Fee: 50 Coins</p>
+
+<p>🏆 Prize: 500 Coins</p>
+
+
+<button onclick="joinTournament()">
+JOIN NOW
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div id="matches">
+
+
+<div class="card">
+
+<h2>🎮 My Matches</h2>
+
+<p>No matches joined yet</p>
+
+</div>
+
+
+</div>
+
 
 
 </div>
@@ -152,9 +194,13 @@ LOGIN
 <script>
 
 
-const SUPABASE_URL = "https://mowzllkumktnobpplulj.supabase.co";
+const SUPABASE_URL =
+"https://mowzllkumktnobpplulj.supabase.co";
 
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
+
 
 
 
@@ -180,10 +226,12 @@ return;
 msg.innerHTML="⏳ Checking...";
 
 
+
 let res = await fetch(
 
 SUPABASE_URL+
 "/rest/v1/players?uid=eq."+uid,
+
 {
 
 headers:{
@@ -209,6 +257,7 @@ document.getElementById("login").style.display="none";
 document.getElementById("dashboard").style.display="block";
 
 
+
 document.getElementById("pname").innerHTML=
 "👤 "+data[0].name;
 
@@ -223,6 +272,7 @@ document.getElementById("pcoins").innerHTML=
 
 }
 
+
 else{
 
 
@@ -234,6 +284,40 @@ msg.innerHTML="❌ Player not found";
 
 
 }
+
+
+
+
+function showTournament(){
+
+document.getElementById("tournamentBox").style.display="block";
+
+}
+
+
+
+function joinTournament(){
+
+alert("✅ Tournament Joined Successfully");
+
+}
+
+
+
+function showMatches(){
+
+document.getElementById("matches").style.display="block";
+
+}
+
+
+
+function logout(){
+
+location.reload();
+
+}
+
 
 
 </script>
