@@ -231,7 +231,26 @@ document.getElementById("playerBox").style.display="block";
 
 
 function showAdmin(){
+function adminLogin(){
 
+let user=document.getElementById("adminUser").value;
+let pass=document.getElementById("adminPass").value;
+
+
+if(user=="admin" && pass=="12345"){
+
+hideAll();
+
+document.getElementById("adminDashboard").style.display="block";
+
+}
+else{
+
+document.getElementById("adminMsg").innerHTML="Wrong Login";
+
+}
+
+}
 hideAll();
 
 document.getElementById("adminBox").style.display="block";
