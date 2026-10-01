@@ -291,6 +291,39 @@ document.getElementById("dashboard").style.display="block";
 document.getElementById("showName").innerHTML="👤 "+name;
 document.getElementById("showUID").innerHTML="UID: "+uid;
 
+
+// SHOW TOURNAMENTS
+
+let tourData="";
+
+if(tournaments.length==0){
+
+tourData="No tournaments available";
+
+}
+else{
+
+tournaments.forEach((t)=>{
+
+tourData += `
+<div class="card">
+<h3>🏆 ${t.name}</h3>
+<p>💰 Entry Fee: ${t.fee}</p>
+<p>🎁 Prize: ${t.prize}</p>
+
+<button>
+JOIN TOURNAMENT
+</button>
+
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("tournamentsData").innerHTML=tourData;
+
 }
 
 function viewPlayers(){
