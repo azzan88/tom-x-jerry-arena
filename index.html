@@ -247,9 +247,44 @@ document.getElementById("loginBox").style.display="none";
 document.getElementById("adminBox").style.display="block";
 
 }
+async function adminLogin(){
+
+let user = document.getElementById("adminUser").value.trim();
+
+let pass = document.getElementById("adminPass").value.trim();
 
 
+if(user=="" || pass==""){
 
+document.getElementById("adminMsg").innerHTML =
+"⚠️ Fill all details";
+
+return;
+
+}
+
+
+if(user=="admin" && pass=="12345"){
+
+
+alert("👑 Admin Login Successful");
+
+document.getElementById("adminBox").style.display="none";
+
+document.getElementById("dashboard").style.display="block";
+
+
+}
+
+else{
+
+document.getElementById("adminMsg").innerHTML =
+"❌ Wrong Username or Password";
+
+}
+
+
+}
 async function login(){
 
 
