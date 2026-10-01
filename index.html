@@ -206,8 +206,11 @@ CREATE
 
 
 <script>
+
 let players = JSON.parse(localStorage.getItem("players")) || [];
 let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
+
+
 function hideAll(){
 
 document.getElementById("home").style.display="none";
@@ -219,7 +222,6 @@ document.getElementById("adminDashboard").style.display="none";
 }
 
 
-
 function showPlayer(){
 
 hideAll();
@@ -227,7 +229,6 @@ hideAll();
 document.getElementById("playerBox").style.display="block";
 
 }
-
 
 
 function showAdmin(){
@@ -259,19 +260,6 @@ document.getElementById("adminMsg").innerHTML="Wrong Login";
 }
 
 }
-else{
-
-document.getElementById("adminMsg").innerHTML="Wrong Login";
-
-}
-
-}
-hideAll();
-
-document.getElementById("adminBox").style.display="block";
-
-}
-
 
 
 function playerLogin(){
@@ -281,11 +269,8 @@ let uid=document.getElementById("playerUID").value;
 
 
 if(name=="" || uid==""){
-
 document.getElementById("playerMsg").innerHTML="Fill all details";
-
 return;
-
 }
 
 
@@ -294,8 +279,9 @@ name:name,
 uid:uid,
 coins:100
 });
-localStorage.setItem("players", JSON.stringify(players));
 
+
+localStorage.setItem("players",JSON.stringify(players));
 
 
 hideAll();
@@ -305,102 +291,8 @@ document.getElementById("dashboard").style.display="block";
 document.getElementById("showName").innerHTML="👤 "+name;
 document.getElementById("showUID").innerHTML="UID: "+uid;
 
-showTournaments();
-
-}
-function showCreateTournament(){
-
-document.getElementById("tournamentBox").style.display="block";
-
-}
-  function createTournament(){
-
-let name=document.getElementById("tourName").value;
-let fee=document.getElementById("tourFee").value;
-let prize=document.getElementById("tourPrize").value;
-
-
-if(name=="" || fee=="" || prize==""){
-alert("Fill all details");
-return;
 }
 
-
-tournaments.push({
-name:name,
-fee:fee,
-prize:prize
-});
-
-
-localStorage.setItem("tournaments", JSON.stringify(tournaments));
-
-
-alert("Tournament Created Successfully");
-
-
-document.getElementById("tourName").value="";
-document.getElementById("tourFee").value="";
-document.getElementById("tourPrize").value="";
-
-  }
-function viewPlayers(){
-
-players = JSON.parse(localStorage.getItem("players")) || [];
-
-document.getElementById("playerList").style.display="block";
-
-let list="";
-
-players.forEach(function(p,i){
-
-list += 
-"👤 Name: "+p.name+
-"<br>🆔 UID: "+p.uid+
-"<br>💰 Coins: "+p.coins+
-"<br><button onclick='deletePlayer("+i+")'>❌ Delete</button><br><br>";
-
-});
-
-if(list==""){
-list="No players added";
-}
-
-document.getElementById("playersData").innerHTML=list;
-
-}
-  function deletePlayer(i){
-
-players.splice(i,1);
-
-localStorage.setItem("players", JSON.stringify(players));
-
-viewPlayers();
-
-  }
-  function showTournaments(){
-
-let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
-
-let list="";
-
-tournaments.forEach(function(t){
-
-list += 
-"🏆 Name: "+t.name+
-"<br>💰 Fee: "+t.fee+
-"<br>🎁 Prize: "+t.prize+
-"<br><br>";
-
-});
-
-if(list==""){
-list="No tournaments available";
-}
-
-document.getElementById("tournamentsData").innerHTML=list;
-
-}
 
 function logout(){
 
@@ -408,9 +300,7 @@ location.reload();
 
 }
 
-
 </script>
-
 
 </body>
 </html>
