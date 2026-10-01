@@ -141,7 +141,21 @@ LOGIN
 </div>
 
 
+<div id="adminBox" class="hide">
 
+<h1>👑 ADMIN LOGIN</h1>
+
+<input id="adminUser" placeholder="Username">
+
+<input id="adminPass" placeholder="Password">
+
+<button onclick="adminLogin()">
+LOGIN
+</button>
+
+<p id="adminMsg"></p>
+
+</div>
 <div id="dashboard" class="hide">
 
 
@@ -225,10 +239,12 @@ const SUPABASE_KEY =
 
 
 let currentPlayer={};
+
 function openAdmin(){
 
+document.getElementById("loginBox").style.display="none";
 
-alert("👑 Admin Panel Opening");
+document.getElementById("adminBox").style.display="block";
 
 }
 
