@@ -326,8 +326,35 @@ document.getElementById("playersData").innerHTML=data;
 
 
 function showCreateTournament(){
-
 document.getElementById("tournamentBox").style.display="block";
+
+}
+
+
+function createTournament(){
+
+let name=document.getElementById("tourName").value;
+let fee=document.getElementById("tourFee").value;
+let prize=document.getElementById("tourPrize").value;
+
+
+if(name=="" || fee=="" || prize==""){
+alert("Fill all details");
+return;
+}
+
+
+tournaments.push({
+name:name,
+fee:fee,
+prize:prize
+});
+
+
+localStorage.setItem("tournaments",JSON.stringify(tournaments));
+
+
+alert("Tournament Created 🔥");
 
 }
 function logout(){
