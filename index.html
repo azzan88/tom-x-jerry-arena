@@ -168,8 +168,7 @@ msg.innerHTML="⏳ Checking...";
 let res = await fetch(
 
 SUPABASE_URL+
-"/rest/v1/players?uid=eq."+uid+"&name=eq."+name,
-
+"/rest/v1/players?uid=eq."+uid,
 {
 
 headers:{
