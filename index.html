@@ -10,145 +10,70 @@
 
 *{
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial;
 }
 
 body{
-
 margin:0;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-
-background:
-linear-gradient(135deg,#050505,#350000);
-
+background:linear-gradient(135deg,#050505,#350000);
 color:white;
-
 }
-
 
 .container{
-
 width:90%;
 max-width:400px;
-
 background:#111;
-
 padding:30px;
-
 border-radius:20px;
-
 text-align:center;
-
 box-shadow:0 0 25px red;
-
 }
-
 
 h1{
-
-font-size:28px;
 color:#ffcc00;
-
-text-shadow:0 0 10px red;
-
 }
-
-
-p{
-
-color:#ccc;
-
-}
-
-
-.card-title{
-
-font-size:22px;
-margin-top:20px;
-
-}
-
 
 input{
-
 width:100%;
-
 padding:15px;
-
 margin:10px 0;
-
 border:none;
-
 border-radius:10px;
-
 background:#222;
-
 color:white;
-
 font-size:16px;
-
-outline:none;
-
 }
-
-
-input:focus{
-
-box-shadow:0 0 10px #ff0000;
-
-}
-
 
 button{
-
 width:100%;
-
 padding:15px;
-
 margin-top:15px;
-
 border:none;
-
 border-radius:10px;
-
 background:linear-gradient(45deg,#ff0000,#ff8800);
-
 color:white;
-
 font-size:18px;
-
 font-weight:bold;
-
-cursor:pointer;
-
 }
 
-
-button:hover{
-
-transform:scale(1.03);
-
+#dashboard{
+display:none;
 }
 
+.card{
+background:#222;
+padding:15px;
+border-radius:15px;
+margin-top:15px;
+}
 
 #msg{
-
 margin-top:15px;
-
-font-weight:bold;
-
 }
-
-
-.logo{
-
-font-size:50px;
-
-}
-
 
 </style>
 
@@ -161,25 +86,22 @@ font-size:50px;
 <div class="container">
 
 
-<div class="logo">🐭🐱</div>
-
+<div id="login">
 
 <h1>🔥 TOM X JERRY ARENA 🔥</h1>
 
 <p>Free Fire Tournament App</p>
 
-
-<h2 class="card-title">🎮 Player Login</h2>
+<h2>🎮 Player Login</h2>
 
 
 <input id="uid" placeholder="Enter Free Fire UID">
 
-
 <input id="name" placeholder="Enter Player Name">
 
 
-<button id="joinBtn">
-JOIN TOURNAMENT
+<button onclick="login()">
+LOGIN
 </button>
 
 
@@ -190,29 +112,48 @@ JOIN TOURNAMENT
 
 
 
+<div id="dashboard">
+
+<h1>🔥 Dashboard 🔥</h1>
+
+<div class="card">
+
+<h2 id="pname"></h2>
+
+<p id="puid"></p>
+
+<p id="pcoins"></p>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
 <script>
+
 
 const SUPABASE_URL = "https://mowzllkumktnobpplulj.supabase.co";
 
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
-
-
-const btn = document.getElementById("joinBtn");
-
-const msg = document.getElementById("msg");
+const SUPABASE_KEY = "YOUR_SUPABASE_KEY_HERE";
 
 
 
-btn.onclick = async function(){
+async function login(){
 
 
-const uid = document.getElementById("uid").value.trim();
+let uid=document.getElementById("uid").value.trim();
 
-const name = document.getElementById("name").value.trim();
+let name=document.getElementById("name").value.trim();
+
+let msg=document.getElementById("msg");
 
 
-
-if(uid==="" || name===""){
+if(uid=="" || name==""){
 
 msg.innerHTML="⚠️ UID aur Name likho";
 
@@ -221,77 +162,64 @@ return;
 }
 
 
-msg.innerHTML="⏳ Please wait...";
+msg.innerHTML="⏳ Checking...";
 
 
-try{
+let res = await fetch(
 
-
-let response = await fetch(
-
-SUPABASE_URL + "/rest/v1/players",
+SUPABASE_URL+
+"/rest/v1/players?uid=eq."+uid+"&name=eq."+name,
 
 {
-
-method:"POST",
 
 headers:{
 
 "apikey":SUPABASE_KEY,
 
-"Authorization":"Bearer "+SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
 
-"Content-Type":"application/json",
-
-"Prefer":"return=minimal"
-
-},
-
-body:JSON.stringify({
-
-uid:uid,
-
-name:name,
-
-phone:"0000000000",
-
-coins:100
-
-})
+}
 
 });
 
 
-if(response.ok){
+let data = await res.json();
 
-msg.innerHTML="✅ Tournament Joined";
 
-document.getElementById("uid").value="";
 
-document.getElementById("name").value="";
+if(data.length > 0){
+
+
+document.getElementById("login").style.display="none";
+
+document.getElementById("dashboard").style.display="block";
+
+
+document.getElementById("pname").innerHTML=
+"👤 "+data[0].name;
+
+
+document.getElementById("puid").innerHTML=
+"UID: "+data[0].uid;
+
+
+document.getElementById("pcoins").innerHTML=
+"💰 Coins: "+data[0].coins;
 
 
 }
 
 else{
 
-let error=await response.text();
 
-msg.innerHTML="❌ "+error;
-
-}
+msg.innerHTML="❌ Player not found";
 
 
 }
 
-catch(error){
 
-msg.innerHTML="❌ "+error.message;
 
 }
-
-
-};
 
 
 </script>
