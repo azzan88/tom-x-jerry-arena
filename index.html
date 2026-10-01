@@ -281,18 +281,23 @@ document.getElementById("adminMsg").innerHTML="Wrong Login";
 
 
 function viewPlayers(){
+
 players = JSON.parse(localStorage.getItem("players")) || [];
+
 document.getElementById("playerList").style.display="block";
 
 let list="";
 
 players.forEach(function(p,i){
 
-list += 
-"👤 Name: "+p.name+
-"<br>🆔 UID: "+p.uid+
-"<br>💰 Coins: "+p.coins+
-"<br><button onclick='deletePlayer("+i+")'>❌ Delete</button><br><br>";
+list += `
+👤 Name: ${p.name}<br>
+🆔 UID: ${p.uid}<br>
+💰 Coins: ${p.coins}<br>
+<button onclick="deletePlayer(${i})">❌ Delete</button>
+<br><br>
+`;
+
 });
 
 if(list==""){
