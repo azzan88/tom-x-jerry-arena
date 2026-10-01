@@ -15,62 +15,92 @@ font-family:Arial;
 
 body{
 margin:0;
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#050505,#350000);
+background:
+linear-gradient(135deg,#000,#350000);
 color:white;
 }
 
 .container{
-width:90%;
-max-width:400px;
+
+width:92%;
+max-width:420px;
 background:#111;
 padding:25px;
-border-radius:20px;
+border-radius:25px;
+box-shadow:0 0 30px red;
 text-align:center;
-box-shadow:0 0 25px red;
+
 }
 
 h1{
 color:#ffcc00;
+text-shadow:0 0 10px red;
 }
 
+
 input{
+
 width:100%;
 padding:15px;
 margin:10px 0;
-border:none;
-border-radius:10px;
 background:#222;
+border:none;
+border-radius:12px;
 color:white;
+
 }
 
+
 button{
+
 width:100%;
 padding:15px;
-margin-top:15px;
+margin-top:12px;
 border:none;
-border-radius:10px;
-background:linear-gradient(45deg,#ff0000,#ff8800);
+border-radius:12px;
+background:linear-gradient(45deg,red,orange);
 color:white;
 font-size:17px;
 font-weight:bold;
+
 }
 
+
 .card{
+
 background:#222;
 padding:15px;
 border-radius:15px;
 margin-top:15px;
+
 }
 
-#dashboard,
-#tournamentBox,
-#matches{
+
+.hide{
+
 display:none;
+
 }
+
+
+.coin{
+
+color:#ffcc00;
+font-size:22px;
+
+}
+
+
+.tournament{
+
+border:2px solid red;
+
+}
+
 
 </style>
 
@@ -83,18 +113,19 @@ display:none;
 <div class="container">
 
 
-<div id="login">
+<div id="loginBox">
 
 <h1>🔥 TOM X JERRY ARENA 🔥</h1>
 
-<p>Free Fire Tournament App</p>
+<p>Free Fire Tournament Platform</p>
+
 
 <h2>🎮 Player Login</h2>
 
 
-<input id="uid" placeholder="Enter Free Fire UID">
+<input id="uid" placeholder="Free Fire UID">
 
-<input id="name" placeholder="Enter Player Name">
+<input id="name" placeholder="Player Name">
 
 
 <button onclick="login()">
@@ -104,11 +135,12 @@ LOGIN
 
 <p id="msg"></p>
 
+
 </div>
 
 
 
-<div id="dashboard">
+<div id="dashboard" class="hide">
 
 
 <h1>🔥 DASHBOARD 🔥</h1>
@@ -116,71 +148,58 @@ LOGIN
 
 <div class="card">
 
-<h2 id="pname"></h2>
+<h2 id="playerName"></h2>
 
-<p id="puid"></p>
+<p id="playerUid"></p>
 
-<h2 id="pcoins"></h2>
+<p class="coin" id="coins"></p>
 
 </div>
 
 
 
-<button onclick="showTournament()">
-🏆 JOIN TOURNAMENT
-</button>
+<div class="card tournament">
 
+<h2>🏆 Free Fire Solo Tournament</h2>
 
-<button onclick="showMatches()">
-🎮 MY MATCHES
-</button>
+<p>Entry: 50 Coins</p>
 
-
-<button onclick="logout()">
-🚪 LOGOUT
-</button>
-
-
-
-<div id="tournamentBox">
-
-
-<div class="card">
-
-<h2>🔥 Free Fire Solo Tournament</h2>
-
-<p>💰 Entry Fee: 50 Coins</p>
-
-<p>🏆 Prize: 500 Coins</p>
+<p>Prize: 500 Coins</p>
 
 
 <button onclick="joinTournament()">
+
 JOIN NOW
+
 </button>
 
 
 </div>
 
 
-</div>
+
+<button onclick="showMatches()">
+
+🎮 MY MATCHES
+
+</button>
 
 
+<div id="matches" class="card hide">
 
+<h2>🎮 Matches</h2>
 
-<div id="matches">
-
-
-<div class="card">
-
-<h2>🎮 My Matches</h2>
-
-<p>No matches joined yet</p>
-
-</div>
-
+<p>No match assigned yet</p>
 
 </div>
 
+
+
+<button onclick="logout()">
+
+🚪 LOGOUT
+
+</button>
 
 
 </div>
@@ -203,6 +222,9 @@ const SUPABASE_KEY =
 
 
 
+let currentPlayer={};
+
+
 
 async function login(){
 
@@ -211,23 +233,18 @@ let uid=document.getElementById("uid").value.trim();
 
 let name=document.getElementById("name").value.trim();
 
-let msg=document.getElementById("msg");
-
 
 if(uid=="" || name==""){
 
-msg.innerHTML="⚠️ UID aur Name likho";
+document.getElementById("msg").innerHTML="⚠️ Fill all details";
 
 return;
 
 }
 
 
-msg.innerHTML="⏳ Checking...";
 
-
-
-let res = await fetch(
+let res=await fetch(
 
 SUPABASE_URL+
 "/rest/v1/players?uid=eq."+uid,
@@ -245,62 +262,100 @@ headers:{
 });
 
 
-let data = await res.json();
+let data=await res.json();
 
 
 
-if(data.length > 0){
+if(data.length>0){
 
 
-document.getElementById("login").style.display="none";
+currentPlayer=data[0];
+
+
+document.getElementById("loginBox").style.display="none";
 
 document.getElementById("dashboard").style.display="block";
 
 
-
-document.getElementById("pname").innerHTML=
+document.getElementById("playerName").innerHTML=
 "👤 "+data[0].name;
 
 
-document.getElementById("puid").innerHTML=
+document.getElementById("playerUid").innerHTML=
 "UID: "+data[0].uid;
 
 
-document.getElementById("pcoins").innerHTML=
+document.getElementById("coins").innerHTML=
 "💰 Coins: "+data[0].coins;
 
 
-}
 
+}
 
 else{
 
 
-msg.innerHTML="❌ Player not found";
+document.getElementById("msg").innerHTML=
+"❌ Player not found";
+
+
+}
 
 
 }
 
 
 
+
+async function joinTournament(){
+
+
+let res=await fetch(
+
+SUPABASE_URL+"/rest/v1/tournament_players",
+
+{
+
+method:"POST",
+
+headers:{
+
+"apikey":SUPABASE_KEY,
+
+"Authorization":"Bearer "+SUPABASE_KEY,
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+uid:currentPlayer.uid,
+
+name:currentPlayer.name,
+
+tournament_name:"Free Fire Solo Tournament"
+
+})
+
+});
+
+
+if(res.ok){
+
+alert("🔥 Tournament Joined Successfully");
+
+}
+
+else{
+
+alert("❌ Error Joining Tournament");
+
 }
 
 
-
-
-function showTournament(){
-
-document.getElementById("tournamentBox").style.display="block";
-
 }
 
-
-
-function joinTournament(){
-
-alert("✅ Tournament Joined Successfully");
-
-}
 
 
 
@@ -317,7 +372,6 @@ function logout(){
 location.reload();
 
 }
-
 
 
 </script>
