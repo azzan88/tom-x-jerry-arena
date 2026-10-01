@@ -311,7 +311,7 @@ tourData += `
 <p>💰 Entry Fee: ${t.fee}</p>
 <p>🎁 Prize: ${t.prize}</p>
 
-<button>
+<button onclick="joinTournament('${t.name}')">
 JOIN TOURNAMENT
 </button>
 
@@ -363,7 +363,11 @@ document.getElementById("tournamentBox").style.display="block";
 
 }
 
+function joinTournament(tourName){
 
+alert("Joined: "+tourName+" 🔥");
+
+}
 function createTournament(){
 
 let name=document.getElementById("tourName").value;
