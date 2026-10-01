@@ -184,7 +184,7 @@ LOGIN
 
 
 <script>
-let players = [];
+let players = JSON.parse(localStorage.getItem("players")) || [];
 
 function hideAll(){
 
@@ -237,7 +237,7 @@ players.push({
 name:name,
 uid:uid
 });
-
+localStorage.setItem("players", JSON.stringify(players));
 
 
 
