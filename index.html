@@ -265,6 +265,8 @@ document.getElementById("adminMsg").innerHTML="Wrong Login";
 }
 
 
+
+
 function playerLogin(){
 
 let name=document.getElementById("playerName").value;
@@ -277,27 +279,43 @@ return;
 }
 
 
-players.push({
+// Check old player
+let player = players.find(p => p.uid == uid);
+
+
+if(!player){
+
+player={
 name:name,
 uid:uid,
 coins:100
-});
+};
 
+players.push(player);
 
 localStorage.setItem("players",JSON.stringify(players));
 
+}
+
+
+// Open dashboard
 
 hideAll();
 
 document.getElementById("dashboard").style.display="block";
 
-document.getElementById("showName").innerHTML="👤 "+name;
-document.getElementById("showUID").innerHTML="UID: "+uid;
-document.getElementById("showCoins").innerHTML="💰 Coins: 100";
 
-// SHOW TOURNAMENTS
+document.getElementById("showName").innerHTML="👤 "+player.name;
+
+document.getElementById("showUID").innerHTML="UID: "+player.uid;
+
+document.getElementById("showCoins").innerHTML="💰 Coins: "+player.coins;
+
+
+// Show tournaments
 
 let tourData="";
+
 
 if(tournaments.length==0){
 
@@ -309,27 +327,33 @@ else{
 tournaments.forEach((t)=>{
 
 tourData += `
+
 <div class="card">
+
 <h3>🏆 ${t.name}</h3>
+
 <p>💰 Entry Fee: ${t.fee}</p>
+
 <p>🎁 Prize: ${t.prize}</p>
+
 
 <button onclick="joinTournament('${t.name}')">
 JOIN TOURNAMENT
 </button>
 
 </div>
+
 `;
 
 });
 
 }
 
+
 document.getElementById("tournamentsData").innerHTML=tourData;
 
 }
-
-function viewPlayers(){
+  function viewPlayers(){
 
 document.getElementById("playerList").style.display="block";
 
@@ -340,10 +364,9 @@ if(players.length==0){
 data="No players added";
 
 }
- 
 else{
 
-players.forEach((p,index)=>{
+players.forEach((p)=>{
 
 data += `
 <div class="card">
@@ -359,7 +382,7 @@ data += `
 
 document.getElementById("playersData").innerHTML=data;
 
-}
+  }
 function viewJoinedPlayers(){
 
 document.getElementById("playerList").style.display="block";
