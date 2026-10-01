@@ -293,7 +293,43 @@ document.getElementById("showUID").innerHTML="UID: "+uid;
 
 }
 
+function viewPlayers(){
 
+document.getElementById("playerList").style.display="block";
+
+let data="";
+
+if(players.length==0){
+
+data="No players added";
+
+}
+else{
+
+players.forEach((p,index)=>{
+
+data += `
+<div class="card">
+<h3>👤 ${p.name}</h3>
+<p>UID: ${p.uid}</p>
+<p>💰 Coins: ${p.coins}</p>
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("playersData").innerHTML=data;
+
+}
+
+
+function showCreateTournament(){
+
+document.getElementById("tournamentBox").style.display="block";
+
+}
 function logout(){
 
 location.reload();
