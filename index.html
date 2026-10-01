@@ -146,7 +146,10 @@ LOGIN
 <button>
 🏆 JOIN TOURNAMENT
 </button>
-
+<div id="tournamentList" class="card">
+<h2>🏆 Available Tournaments</h2>
+<p id="tournamentsData">No tournaments available</p>
+</div>
 
 <button onclick="logout()">
 🚪 LOGOUT
@@ -204,7 +207,7 @@ CREATE
 
 <script>
 let players = JSON.parse(localStorage.getItem("players")) || [];
-
+let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
 function hideAll(){
 
 document.getElementById("home").style.display="none";
@@ -266,59 +269,47 @@ hideAll();
 document.getElementById("dashboard").style.display="block";
 
 document.getElementById("showName").innerHTML="👤 "+name;
-
 document.getElementById("showUID").innerHTML="UID: "+uid;
 
-}
-
-
-
-
-
-function adminLogin(){
-
-let user=document.getElementById("adminUser").value;
-let pass=document.getElementById("adminPass").value;
-
-
-if(user=="admin" && pass=="12345"){
-
-hideAll();
-
-document.getElementById("adminDashboard").style.display="block";
+showTournaments();
 
 }
-
-else{
-
-document.getElementById("adminMsg").innerHTML="Wrong Login";
-
-}
-
-
-}
-
 function showCreateTournament(){
 
 document.getElementById("tournamentBox").style.display="block";
 
 }
-
-
-function createTournament(){
+  function createTournament(){
 
 let name=document.getElementById("tourName").value;
 let fee=document.getElementById("tourFee").value;
 let prize=document.getElementById("tourPrize").value;
+
 
 if(name=="" || fee=="" || prize==""){
 alert("Fill all details");
 return;
 }
 
-alert("Tournament Created: "+name);
 
-}
+tournaments.push({
+name:name,
+fee:fee,
+prize:prize
+});
+
+
+localStorage.setItem("tournaments", JSON.stringify(tournaments));
+
+
+alert("Tournament Created Successfully");
+
+
+document.getElementById("tourName").value="";
+document.getElementById("tourFee").value="";
+document.getElementById("tourPrize").value="";
+
+  }
 function viewPlayers(){
 
 players = JSON.parse(localStorage.getItem("players")) || [];
@@ -329,13 +320,11 @@ let list="";
 
 players.forEach(function(p,i){
 
-list += `
-👤 Name: ${p.name}<br>
-🆔 UID: ${p.uid}<br>
-💰 Coins: ${p.coins}<br>
-<button onclick="deletePlayer(${i})">❌ Delete</button>
-<br><br>
-`;
+list += 
+"👤 Name: "+p.name+
+"<br>🆔 UID: "+p.uid+
+"<br>💰 Coins: "+p.coins+
+"<br><button onclick='deletePlayer("+i+")'>❌ Delete</button><br><br>";
 
 });
 
@@ -355,6 +344,30 @@ localStorage.setItem("players", JSON.stringify(players));
 viewPlayers();
 
   }
+  function showTournaments(){
+
+let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
+
+let list="";
+
+tournaments.forEach(function(t){
+
+list += 
+"🏆 Name: "+t.name+
+"<br>💰 Fee: "+t.fee+
+"<br>🎁 Prize: "+t.prize+
+"<br><br>";
+
+});
+
+if(list==""){
+list="No tournaments available";
+}
+
+document.getElementById("tournamentsData").innerHTML=list;
+
+}
+
 function logout(){
 
 location.reload();
