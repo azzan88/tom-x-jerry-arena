@@ -209,7 +209,7 @@ CREATE
 
 let players = JSON.parse(localStorage.getItem("players")) || [];
 let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
-
+let joinedPlayers = JSON.parse(localStorage.getItem("joinedPlayers")) || [];
 
 function hideAll(){
 
@@ -365,7 +365,23 @@ document.getElementById("tournamentBox").style.display="block";
 
 function joinTournament(tourName){
 
-alert("Joined: "+tourName+" 🔥");
+let name=document.getElementById("showName").innerHTML.replace("👤 ","");
+let uid=document.getElementById("showUID").innerHTML.replace("UID: ","");
+
+
+joinedPlayers.push({
+
+name:name,
+uid:uid,
+tournament:tourName
+
+});
+
+
+localStorage.setItem("joinedPlayers",JSON.stringify(joinedPlayers));
+
+
+alert("Tournament Joined 🔥");
 
 }
 function createTournament(){
