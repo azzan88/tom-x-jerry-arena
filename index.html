@@ -12,32 +12,35 @@
 
 <h2>Player Join</h2>
 
-<input id="uid" type="text" placeholder="Enter UID">
+<input id="uid" placeholder="Enter UID">
 <br><br>
 
-<input id="name" type="text" placeholder="Enter Name">
+<input id="name" placeholder="Enter Name">
 <br><br>
 
 <button id="joinBtn">Join Tournament</button>
 
 <p id="msg"></p>
+
+
 <script>
 
 const SUPABASE_URL = "https://imowzilkumktnobpplulj.supabase.co";
+
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vd3psbGt1bWt0bm9icHBsdWxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODQwODYsImV4cCI6MjEwNjM2MDA4Nn0.nzdeQjnLfXLhXjPlwgDj5nQ1nXofSDi1K2lCZ0V-AiE";
 
 
-document.getElementById("joinBtn").addEventListener("click", join);
-
-
-async function join(){
-
-const uid = document.getElementById("uid").value.trim();
-const name = document.getElementById("name").value.trim();
+const btn = document.getElementById("joinBtn");
 const msg = document.getElementById("msg");
 
 
-if(!uid || !name){
+btn.onclick = async function(){
+
+const uid = document.getElementById("uid").value.trim();
+const name = document.getElementById("name").value.trim();
+
+
+if(uid === "" || name === ""){
 msg.innerHTML = "⚠️ UID aur Name likho";
 return;
 }
@@ -48,13 +51,14 @@ msg.innerHTML = "⏳ Please wait...";
 
 try{
 
-const response = await fetch(
+
+let response = await fetch(
 SUPABASE_URL + "/rest/v1/players",
 {
 method:"POST",
 
 headers:{
-"apikey": SUPABASE_KEY,
+"apikey":SUPABASE_KEY,
 "Authorization":"Bearer " + SUPABASE_KEY,
 "Content-Type":"application/json",
 "Prefer":"return=minimal"
@@ -79,20 +83,20 @@ document.getElementById("name").value="";
 
 }else{
 
-const error = await response.text();
-
-
-}
-
-
-}catch(e){
-
-msg.innerHTML="❌ Connection Error";
+let error = await response.text();
+msg.innerHTML="❌ Error: " + error;
 
 }
 
 
+}catch(error){
+
+msg.innerHTML="❌ " + error.message;
+
 }
+
+
+};
 
 </script>
 
