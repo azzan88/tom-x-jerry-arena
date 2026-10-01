@@ -171,6 +171,9 @@ LOGIN
 <button onclick="viewPlayers()">
 👥 VIEW PLAYERS
 </button>
+  <button onclick="viewJoinedPlayers()">
+🏆 VIEW JOINED PLAYERS
+  </button>
   <button onclick="showCreateTournament()">
 🏆 CREATE TOURNAMENT
 </button>
@@ -337,6 +340,7 @@ if(players.length==0){
 data="No players added";
 
 }
+ 
 else{
 
 players.forEach((p,index)=>{
@@ -356,7 +360,36 @@ data += `
 document.getElementById("playersData").innerHTML=data;
 
 }
+function viewJoinedPlayers(){
 
+document.getElementById("playerList").style.display="block";
+
+let data="";
+
+if(joinedPlayers.length==0){
+
+data="No one joined tournament";
+
+}
+else{
+
+joinedPlayers.forEach((p)=>{
+
+data += `
+<div class="card">
+<h3>👤 ${p.name}</h3>
+<p>UID: ${p.uid}</p>
+<p>🏆 Tournament: ${p.tournament}</p>
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("playersData").innerHTML=data;
+
+}
 
 function showCreateTournament(){
 document.getElementById("tournamentBox").style.display="block";
