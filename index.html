@@ -165,10 +165,15 @@ LOGIN
 
 <h2>Control Panel</h2>
 
-<button>
+<button onclick="viewPlayers()">
 👥 VIEW PLAYERS
 </button>
+<div id="playerList" class="card hide">
 
+<h2>👥 Players</h2>
+
+<p id="playersData">No players added</p>
+</div>
 </div>
 
 </div>
@@ -234,11 +239,9 @@ document.getElementById("dashboard").style.display="block";
 
 document.getElementById("showName").innerHTML="👤 "+name;
 
-document.getElementById("showUID").innerHTML="UID: "+uid;
-
-
-}
-
+document.getElementById("playersData").innerHTML =
+"👤 "+name+"<br>UID: "+uid;
+  }
 
 
 function adminLogin(){
@@ -265,7 +268,11 @@ document.getElementById("adminMsg").innerHTML="Wrong Login";
 }
 
 
+function viewPlayers(){
 
+document.getElementById("playerList").style.display="block";
+
+}
 function logout(){
 
 location.reload();
