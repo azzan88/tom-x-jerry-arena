@@ -184,7 +184,7 @@ LOGIN
 
 
 <script>
-
+let players = [];
 
 function hideAll(){
 
@@ -233,15 +233,26 @@ return;
 }
 
 
+players.push({
+name:name,
+uid:uid
+});
+
+
+
+
 hideAll();
 
 document.getElementById("dashboard").style.display="block";
 
 document.getElementById("showName").innerHTML="👤 "+name;
 
-document.getElementById("playersData").innerHTML =
-"👤 "+name+"<br>UID: "+uid;
-  }
+document.getElementById("showUID").innerHTML="UID: "+uid;
+
+}
+
+
+
 
 
 function adminLogin(){
@@ -271,6 +282,20 @@ document.getElementById("adminMsg").innerHTML="Wrong Login";
 function viewPlayers(){
 
 document.getElementById("playerList").style.display="block";
+
+let list="";
+
+players.forEach(function(p){
+
+list += "👤 Name: "+p.name+"<br>🆔 UID: "+p.uid+"<br><br>";
+
+});
+
+if(list==""){
+list="No players added";
+}
+
+document.getElementById("playersData").innerHTML=list;
 
 }
 function logout(){
