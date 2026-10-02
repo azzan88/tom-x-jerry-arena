@@ -88,7 +88,7 @@ color:#ffcc00;
 👑 ADMIN LOGIN
 </button>
 
-</div>
+
 
 
 
@@ -177,7 +177,9 @@ LOGIN
   <button onclick="showCreateTournament()">
 🏆 CREATE TOURNAMENT
 </button>
-
+<button onclick="viewTournaments()">
+🏆 MANAGE TOURNAMENTS
+</button>
 <div id="tournamentBox" class="card hide">
 
 <h2>🏆 New Tournament</h2>
@@ -353,6 +355,44 @@ JOIN TOURNAMENT
 document.getElementById("tournamentsData").innerHTML=tourData;
 
 }
+  function viewTournaments(){
+
+document.getElementById("playerList").style.display="block";
+
+let data="";
+
+if(tournaments.length==0){
+
+data="No tournaments available";
+
+}
+else{
+
+tournaments.forEach((t,index)=>{
+
+data += `
+<div class="card">
+
+<h3>🏆 ${t.name}</h3>
+
+<p>💰 Fee: ${t.fee}</p>
+
+<p>🎁 Prize: ${t.prize}</p>
+
+<button onclick="deleteTournament(${index})">
+🗑️ DELETE
+</button>
+
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("playersData").innerHTML=data;
+
+  }
   function viewPlayers(){
 
 document.getElementById("playerList").style.display="block";
@@ -513,6 +553,26 @@ localStorage.setItem("tournaments",JSON.stringify(tournaments));
 alert("Tournament Created 🔥");
 
 }
+  function deleteTournament(index){
+
+let confirmDelete = confirm("Delete this tournament?");
+
+if(confirmDelete){
+
+tournaments.splice(index,1);
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+alert("Tournament Deleted 🗑️");
+
+location.reload();
+
+}
+
+  }
 function logout(){
 
 location.reload();
