@@ -171,6 +171,9 @@ LOGIN
 <button onclick="viewPlayers()">
 👥 VIEW PLAYERS
 </button>
+  <button onclick="showAddCoins()">
+💰 ADD COINS
+  </button>
   <button onclick="viewJoinedPlayers()">
 🏆 VIEW JOINED PLAYERS
   </button>
@@ -193,8 +196,21 @@ LOGIN
 <button onclick="createTournament()">
 CREATE
 </button>
+</div>
+<div id="coinsBox" class="card hide">
+
+<h2>💰 Add Coins</h2>
+
+<input id="coinUID" placeholder="Player UID">
+
+<input id="coinAmount" placeholder="Coins Amount">
+
+<button onclick="addCoins()">
+ADD COINS
+</button>
 
 </div>
+
 <div id="playerList" class="card hide">
 
 <h2>👥 Players</h2>
@@ -458,7 +474,45 @@ function showCreateTournament(){
 document.getElementById("tournamentBox").style.display="block";
 
 }
+function showAddCoins(){
 
+document.getElementById("coinsBox").style.display="block";
+
+}
+
+
+function addCoins(){
+
+let uid=document.getElementById("coinUID").value;
+let amount=document.getElementById("coinAmount").value;
+
+
+let player=players.find(p=>p.uid==uid);
+
+
+if(!player){
+
+alert("Player not found ❌");
+return;
+
+}
+
+
+player.coins += Number(amount);
+
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+alert("Coins Added 💰🔥");
+
+location.reload();
+
+}
+  
 function joinTournament(tourName){
 
 let name=document.getElementById("showName").innerHTML.replace("👤 ","");
