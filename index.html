@@ -146,6 +146,19 @@ LOGIN
 <button>
 🏆 JOIN TOURNAMENT
 </button>
+  <button onclick="viewRooms()">
+⭐ VIEW STAR ROOM
+</button>
+
+<div id="roomList" class="card hide">
+
+<h2>⭐ Room Details</h2>
+
+<p id="roomsData">
+No Room Available
+</p>
+
+</div>
 <div id="tournamentList" class="card">
 <h2>🏆 Available Tournaments</h2>
 <p id="tournamentsData">No tournaments available</p>
@@ -653,6 +666,77 @@ JSON.stringify(tournaments)
 alert("Tournament Deleted 🗑️");
 
 location.reload();
+
+}
+    
+}
+function showCreateRoom(){
+
+document.getElementById("roomBox").style.display="block";
+
+}
+
+
+function createRoom(){
+
+let name=document.getElementById("roomName").value;
+let id=document.getElementById("roomID").value;
+let pass=document.getElementById("roomPass").value;
+
+
+if(name=="" || id=="" || pass==""){
+
+alert("Fill all details ❌");
+return;
+
+}
+
+
+rooms.push({
+
+name:name,
+roomID:id,
+password:pass
+
+});
+
+
+localStorage.setItem(
+"rooms",
+JSON.stringify(rooms)
+);
+
+
+alert("Star Room Created ⭐🔥");
+
+
+document.getElementById("roomName").value="";
+document.getElementById("roomID").value="";
+document.getElementById("roomPass").value="";
+
+}
+
+
+
+name:name,
+roomID:id,
+password:pass
+
+});
+
+
+localStorage.setItem(
+"rooms",
+JSON.stringify(rooms)
+);
+
+
+alert("Star Room Created ⭐🔥");
+
+
+document.getElementById("roomName").value="";
+document.getElementById("roomID").value="";
+document.getElementById("roomPass").value="";
 
 }
 
