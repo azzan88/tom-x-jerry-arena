@@ -192,7 +192,7 @@ LOGIN
 <input id="tourFee" placeholder="Entry Fee">
 
 <input id="tourPrize" placeholder="Prize">
-
+<input id="tourSlots" placeholder="Total Slots">
 <button onclick="createTournament()">
 CREATE
 </button>
@@ -353,7 +353,7 @@ tourData += `
 <p>💰 Entry Fee: ${t.fee}</p>
 
 <p>🎁 Prize: ${t.prize}</p>
-
+<p>👥 Slots: ${t.joined || 0}/${t.slots}</p>
 
 <button onclick="joinTournament('${t.name}')">
 JOIN TOURNAMENT
@@ -521,7 +521,12 @@ let uid=document.getElementById("showUID").innerHTML.replace("UID: ","");
 let player = players.find(p => p.uid == uid);
 
 let tournament = tournaments.find(t => t.name == tourName);
+if(tournament.joined >= tournament.slots){
 
+alert("Tournament Full ❌");
+return;
+
+}
 
 // Check already joined
 let already = joinedPlayers.find(j => 
@@ -565,7 +570,12 @@ uid:uid,
 tournament:tourName
 
 });
+tournament.joined++;
 
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
 
 localStorage.setItem(
 "joinedPlayers",
@@ -586,7 +596,7 @@ function createTournament(){
 let name=document.getElementById("tourName").value;
 let fee=document.getElementById("tourFee").value;
 let prize=document.getElementById("tourPrize").value;
-
+let slots=document.getElementById("tourSlots").value;
 
 if(name=="" || fee=="" || prize==""){
 alert("Fill all details");
