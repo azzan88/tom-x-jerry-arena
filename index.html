@@ -424,6 +424,45 @@ function joinTournament(tourName){
 let name=document.getElementById("showName").innerHTML.replace("👤 ","");
 let uid=document.getElementById("showUID").innerHTML.replace("UID: ","");
 
+let player = players.find(p => p.uid == uid);
+
+let tournament = tournaments.find(t => t.name == tourName);
+
+
+// Check already joined
+let already = joinedPlayers.find(j => 
+j.uid == uid && j.tournament == tourName
+);
+
+if(already){
+
+alert("You already joined this tournament ❌");
+return;
+
+}
+
+
+// Check coins
+
+if(player.coins < Number(tournament.fee)){
+
+alert("Not enough coins 💰");
+return;
+
+}
+
+
+// Deduct coins
+
+player.coins -= Number(tournament.fee);
+
+
+// Save player update
+
+localStorage.setItem("players",JSON.stringify(players));
+
+
+// Add joined player
 
 joinedPlayers.push({
 
@@ -434,12 +473,20 @@ tournament:tourName
 });
 
 
-localStorage.setItem("joinedPlayers",JSON.stringify(joinedPlayers));
+localStorage.setItem(
+"joinedPlayers",
+JSON.stringify(joinedPlayers)
+);
 
 
 alert("Tournament Joined 🔥");
 
+
+location.reload();
+
 }
+
+
 function createTournament(){
 
 let name=document.getElementById("tourName").value;
