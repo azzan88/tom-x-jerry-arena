@@ -183,6 +183,9 @@ LOGIN
 <button onclick="viewTournaments()">
 🏆 MANAGE TOURNAMENTS
 </button>
+  <button onclick="showCreateRoom()">
+⭐ CREATE STAR ROOM
+  </button>
 <div id="tournamentBox" class="card hide">
 
 <h2>🏆 New Tournament</h2>
@@ -197,6 +200,22 @@ LOGIN
 CREATE
 </button>
 </div>
+  <div id="roomBox" class="card hide">
+
+<h2>⭐ Create Star Room</h2>
+
+<input id="roomName" placeholder="Room Name">
+
+<input id="roomID" placeholder="Room ID">
+
+<input id="roomPass" placeholder="Room Password">
+
+<button onclick="createRoom()">
+CREATE ROOM
+</button>
+
+  </div>
+  
 <div id="coinsBox" class="card hide">
 
 <h2>💰 Add Coins</h2>
@@ -231,7 +250,7 @@ ADD COINS
 let players = JSON.parse(localStorage.getItem("players")) || [];
 let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
 let joinedPlayers = JSON.parse(localStorage.getItem("joinedPlayers")) || [];
-
+let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
 function hideAll(){
 
 document.getElementById("home").style.display="none";
