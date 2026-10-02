@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+hu<!DOCTYPE html>
 <html>
 <head>
 
@@ -521,8 +521,7 @@ let uid=document.getElementById("showUID").innerHTML.replace("UID: ","");
 let player = players.find(p => p.uid == uid);
 
 let tournament = tournaments.find(t => t.name == tourName);
-if(tournament.joined >= tournament.slots){
-
+if(Number(tournament.joined) >= Number(tournament.slots)){
 alert("Tournament Full ❌");
 return;
 
@@ -607,7 +606,9 @@ return;
 tournaments.push({
 name:name,
 fee:fee,
-prize:prize
+prize:prize,
+slots:Number(slots),
+joined:0
 });
 
 
