@@ -192,6 +192,9 @@ LOGIN
 <button onclick="viewJoinedPlayers()">
 🔥 JOINED PLAYERS
 </button>
+  <button onclick="resultBox()">
+🏆 MATCH RESULT
+  </button>
 </div>
 
 
@@ -845,6 +848,73 @@ data+=`
 
 adminData.innerHTML=data;
 
+
+  }
+  function resultBox(){
+
+adminData.innerHTML=`
+
+<div class="card">
+
+<h2>🏆 Match Result</h2>
+
+<input id="winUID" placeholder="Winner UID">
+
+<input id="winPrize" placeholder="Prize Coins">
+
+
+<button onclick="giveResult()">
+GIVE REWARD 🔥
+</button>
+
+
+</div>
+
+`;
+
+  }
+  function giveResult(){
+
+let winner = players.find(
+p => p.uid == winUID.value
+);
+
+
+if(!winner){
+
+alert("Winner Not Found ❌");
+return;
+
+}
+
+
+let prize = Number(winPrize.value);
+
+
+if(!prize){
+
+alert("Enter Prize Coins");
+return;
+
+}
+
+
+// Add reward
+winner.coins += prize;
+
+
+// Save
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+alert("Winner Reward Added 🏆🔥");
+
+adminData.innerHTML =
+"Reward Given Successfully";
 
   }
 function logout(){
