@@ -344,6 +344,7 @@ tData+=`
 <p>🎁 Prize: ${t.prize}</p>
 
 <p>👥 Slots: ${t.joined}/${t.slots}</p>
+<p>📌 Status: ${t.status}</p>
 <button onclick="joinTournament(${tournaments.indexOf(t)})">
 JOIN MATCH 🔥
 </button>
@@ -462,7 +463,7 @@ prize:tPrize.value,
 slots:Number(tSlots.value),
 
 joined:0
-
+status:"Upcoming"
 };
 
 
@@ -519,7 +520,9 @@ data+=`
 <p>Prize: ${t.prize}</p>
 
 <p>Slots: ${t.joined}/${t.slots}</p>
-
+<button onclick="changeStatus(${index})">
+🔄 CHANGE STATUS
+</button>
 
 <button onclick="deleteTournament(${index})">
 
@@ -915,6 +918,44 @@ alert("Winner Reward Added 🏆🔥");
 
 adminData.innerHTML =
 "Reward Given Successfully";
+
+  }
+  function changeStatus(index){
+
+let t = tournaments[index];
+
+
+if(t.status=="Upcoming"){
+
+t.status="Live";
+
+}
+
+else if(t.status=="Live"){
+
+t.status="Completed";
+
+}
+
+else{
+
+t.status="Upcoming";
+
+}
+
+
+// Save
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+
+alert("Status Changed 🔄");
+
+
+manageTournament();
 
   }
 function logout(){
