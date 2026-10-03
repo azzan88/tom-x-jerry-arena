@@ -142,7 +142,8 @@ LOGIN
 <p id="coinsShow"></p>
 
 </div>
-
+  
+<div id="tournamentData"></div>
 
 <div id="playerData"></div>
 <button onclick="viewRooms()">
@@ -316,7 +317,38 @@ playerNameShow.innerHTML="👤 "+player.name;
 uidShow.innerHTML="UID: "+player.uid;
 
 coinsShow.innerHTML="💰 Coins: "+player.coins;
+let tData="";
 
+if(tournaments.length==0){
+
+tData="No Tournament Available";
+
+}
+else{
+
+tournaments.forEach((t)=>{
+
+tData+=`
+
+<div class="card">
+
+<h3>🏆 ${t.name}</h3>
+
+<p>💰 Fee: ${t.fee}</p>
+
+<p>🎁 Prize: ${t.prize}</p>
+
+<p>👥 Slots: ${t.joined}/${t.slots}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("tournamentData").innerHTML=tData;
 
 }
 
