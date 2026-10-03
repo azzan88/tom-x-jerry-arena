@@ -659,7 +659,40 @@ alert("Star Room Created ⭐");
 
 
 
+function viewRooms(){
 
+let data="<h2>⭐ Star Room</h2>";
+
+if(rooms.length==0){
+
+data+="No Room Available";
+
+}
+else{
+
+rooms.forEach((r)=>{
+
+data+=`
+
+<div class="card">
+
+<h3>⭐ ${r.name}</h3>
+
+<p>Room ID: ${r.id}</p>
+
+<p>Password: ${r.pass}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("playerData").innerHTML=data;
+
+}
 function logout(){
 
 location.reload();
