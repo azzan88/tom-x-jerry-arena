@@ -1,40 +1,48 @@
-hu<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 
-<title>TOM X JERRY ARENA</title>
+<title>🔥 TOM X JERRY ARENA 🔥</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-body{
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#000,#400000);
-color:white;
+*{
+box-sizing:border-box;
 font-family:Arial;
 }
 
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#000,#700000);
+color:white;
+}
+
 .container{
-width:90%;
-max-width:400px;
+width:95%;
+max-width:420px;
 background:#111;
-padding:25px;
+padding:20px;
 border-radius:20px;
 box-shadow:0 0 25px red;
 text-align:center;
 }
 
+h1{
+color:#ffcc00;
+}
+
 input,button{
 width:100%;
-padding:14px;
+padding:13px;
 margin:8px 0;
-border-radius:10px;
 border:none;
+border-radius:10px;
 }
 
 input{
@@ -45,12 +53,7 @@ color:white;
 button{
 background:linear-gradient(45deg,red,orange);
 color:white;
-font-size:16px;
 font-weight:bold;
-}
-
-.hide{
-display:none;
 }
 
 .card{
@@ -60,13 +63,14 @@ border-radius:15px;
 margin-top:15px;
 }
 
-h1{
-color:#ffcc00;
+.hide{
+display:none;
 }
 
 </style>
 
 </head>
+
 
 <body>
 
@@ -80,11 +84,11 @@ color:#ffcc00;
 
 <p>Free Fire Tournament Platform</p>
 
-<button onclick="showPlayer()">
+<button onclick="openPlayer()">
 🎮 PLAYER LOGIN
 </button>
 
-<button onclick="showAdmin()">
+<button onclick="openAdmin()">
 👑 ADMIN LOGIN
 </button>
 
@@ -92,245 +96,186 @@ color:#ffcc00;
 
 
 
-<div id="playerBox" class="hide">
+<div id="playerLogin" class="hide">
 
 <h1>🎮 Player Login</h1>
 
-<input id="playerName" placeholder="Player Name">
+<input id="pName" placeholder="Player Name">
 
-<input id="playerUID" placeholder="Free Fire UID">
+<input id="pUID" placeholder="Free Fire UID">
 
 <button onclick="playerLogin()">
 LOGIN
 </button>
 
-<p id="playerMsg"></p>
-
 </div>
 
 
 
-<div id="adminBox" class="hide">
+
+<div id="adminLogin" class="hide">
 
 <h1>👑 Admin Login</h1>
 
-<input id="adminUser" placeholder="Username">
+<input id="aUser" placeholder="Username">
 
-<input id="adminPass" placeholder="Password">
+<input id="aPass" placeholder="Password">
 
 <button onclick="adminLogin()">
 LOGIN
 </button>
 
-<p id="adminMsg"></p>
-
 </div>
 
 
 
-<div id="dashboard" class="hide">
+<div id="playerPanel" class="hide">
 
-<h1>🔥 DASHBOARD 🔥</h1>
+<h1>🔥 PLAYER PANEL 🔥</h1>
 
 <div class="card">
 
-<h2 id="showName"></h2>
+<h2 id="playerNameShow"></h2>
 
-<p id="showUID"></p>
+<p id="uidShow"></p>
 
-<p id="showCoins">💰 Coins: 0</p>
-
-</div>
-
-
-<button>
-🏆 JOIN TOURNAMENT
-</button>
-  <button onclick="viewRooms()">
-⭐ VIEW STAR ROOM
-</button>
-
-<div id="roomList" class="card hide">
-
-<h2>⭐ Room Details</h2>
-
-<p id="roomsData">
-No Room Available
-</p>
+<p id="coinsShow"></p>
 
 </div>
-<div id="tournamentList" class="card">
-<h2>🏆 Available Tournaments</h2>
-<p id="tournamentsData">No tournaments available</p>
-</div>
+
+
+<div id="playerData"></div>
+
 
 <button onclick="logout()">
 🚪 LOGOUT
 </button>
 
-
 </div>
 
 
 
-<div id="adminDashboard" class="hide">
 
-<h1>👑 ADMIN PANEL</h1>
+
+<div id="adminPanel" class="hide">
+
+<h1>👑 ADMIN PANEL 👑</h1>
 
 <div class="card">
-
-<h2>Control Panel</h2>
 
 <button onclick="viewPlayers()">
 👥 VIEW PLAYERS
 </button>
-  <button onclick="showAddCoins()">
-💰 ADD COINS
-  </button>
-  <button onclick="viewJoinedPlayers()">
-🏆 VIEW JOINED PLAYERS
-  </button>
-  <button onclick="showCreateTournament()">
+
+
+<button onclick="createTournamentBox()">
 🏆 CREATE TOURNAMENT
 </button>
-<button onclick="viewTournaments()">
-🏆 MANAGE TOURNAMENTS
+
+
+<button onclick="manageTournament()">
+🗑️ MANAGE TOURNAMENT
 </button>
-  <button onclick="showCreateRoom()">
+
+
+<button onclick="addCoinsBox()">
+💰 ADD COINS
+</button>
+
+
+<button onclick="createRoomBox()">
 ⭐ CREATE STAR ROOM
-  </button>
-<div id="tournamentBox" class="card hide">
-
-<h2>🏆 New Tournament</h2>
-
-<input id="tourName" placeholder="Tournament Name">
-
-<input id="tourFee" placeholder="Entry Fee">
-
-<input id="tourPrize" placeholder="Prize">
-<input id="tourSlots" placeholder="Total Slots">
-<button onclick="createTournament()">
-CREATE
-</button>
-</div>
-  <div id="roomBox" class="card hide">
-
-<h2>⭐ Create Star Room</h2>
-
-<input id="roomName" placeholder="Room Name">
-
-<input id="roomID" placeholder="Room ID">
-
-<input id="roomPass" placeholder="Room Password">
-
-<button onclick="createRoom()">
-CREATE ROOM
-</button>
-
-  </div>
-  
-<div id="coinsBox" class="card hide">
-
-<h2>💰 Add Coins</h2>
-
-<input id="coinUID" placeholder="Player UID">
-
-<input id="coinAmount" placeholder="Coins Amount">
-
-<button onclick="addCoins()">
-ADD COINS
 </button>
 
 </div>
 
-<div id="playerList" class="card hide">
 
-<h2>👥 Players</h2>
+<div id="adminData"></div>
 
-<p id="playersData">No players added</p>
-</div>
-</div>
 
-</div>
-
+<button onclick="logout()">
+🚪 LOGOUT
+</button>
 
 </div>
+
+
+</div>
+
+
 
 
 
 <script>
 
-let players = JSON.parse(localStorage.getItem("players")) || [];
-let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
-let joinedPlayers = JSON.parse(localStorage.getItem("joinedPlayers")) || [];
-let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+let players =
+JSON.parse(localStorage.getItem("players")) || [];
+
+
+let tournaments =
+JSON.parse(localStorage.getItem("tournaments")) || [];
+
+
+let rooms =
+JSON.parse(localStorage.getItem("rooms")) || [];
+
+
+let joined =
+JSON.parse(localStorage.getItem("joined")) || [];
+
+
+let currentPlayer=null;
+
+
+
 function hideAll(){
 
-document.getElementById("home").style.display="none";
-document.getElementById("playerBox").style.display="none";
-document.getElementById("adminBox").style.display="none";
-document.getElementById("dashboard").style.display="none";
-document.getElementById("adminDashboard").style.display="none";
+home.style.display="none";
+playerLogin.style.display="none";
+adminLogin.style.display="none";
+playerPanel.style.display="none";
+adminPanel.style.display="none";
 
 }
 
 
-function showPlayer(){
+
+function openPlayer(){
 
 hideAll();
 
-document.getElementById("playerBox").style.display="block";
+playerLogin.style.display="block";
 
 }
 
 
-function showAdmin(){
+
+function openAdmin(){
 
 hideAll();
 
-document.getElementById("adminBox").style.display="block";
+adminLogin.style.display="block";
 
 }
-
-
-function adminLogin(){
-
-let user=document.getElementById("adminUser").value;
-let pass=document.getElementById("adminPass").value;
-
-
-if(user=="admin" && pass=="12345"){
-
-hideAll();
-
-document.getElementById("adminDashboard").style.display="block";
-
-}
-else{
-
-document.getElementById("adminMsg").innerHTML="Wrong Login";
-
-}
-
-}
-
 
 
 
 function playerLogin(){
 
-let name=document.getElementById("playerName").value;
-let uid=document.getElementById("playerUID").value;
+let name=pName.value;
+
+let uid=pUID.value;
 
 
 if(name=="" || uid==""){
-document.getElementById("playerMsg").innerHTML="Fill all details";
+
+alert("Fill all details");
 return;
+
 }
 
 
-// Check old player
-let player = players.find(p => p.uid == uid);
+let player=players.find(p=>p.uid==uid);
 
 
 if(!player){
@@ -341,196 +286,294 @@ uid:uid,
 coins:100
 };
 
+
 players.push(player);
 
-localStorage.setItem("players",JSON.stringify(players));
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
 
 }
 
 
-// Open dashboard
+currentPlayer=player;
+
 
 hideAll();
 
-document.getElementById("dashboard").style.display="block";
+playerPanel.style.display="block";
 
 
-document.getElementById("showName").innerHTML="👤 "+player.name;
+playerNameShow.innerHTML="👤 "+player.name;
 
-document.getElementById("showUID").innerHTML="UID: "+player.uid;
-localStorage.setItem("currentPlayerUID", player.uid);
-document.getElementById("showCoins").innerHTML="💰 Coins: "+player.coins;
+uidShow.innerHTML="UID: "+player.uid;
 
+coinsShow.innerHTML="💰 Coins: "+player.coins;
 
-// Show tournaments
-
-let tourData="";
-
-
-if(tournaments.length==0){
-
-tourData="No tournaments available";
 
 }
+
+
+
+function adminLogin(){
+
+if(aUser.value=="admin" && aPass.value=="12345"){
+
+
+hideAll();
+
+adminPanel.style.display="block";
+
+
+}
+
 else{
 
-tournaments.forEach((t)=>{
-
-tourData += `
-
-<div class="card">
-
-<h3>🏆 ${t.name}</h3>
-
-<p>💰 Entry Fee: ${t.fee}</p>
-
-<p>🎁 Prize: ${t.prize}</p>
-<p>👥 Slots: ${t.joined || 0}/${t.slots}</p>
-
-<button onclick="joinTournament('${t.name}')">
-JOIN TOURNAMENT
-</button>
-
-</div>
-
-`;
-
-});
+alert("Wrong Login");
 
 }
 
-
-document.getElementById("tournamentsData").innerHTML=tourData;
-
 }
-  function viewTournaments(){
-
-document.getElementById("playerList").style.display="block";
-
-let data="";
-
-if(tournaments.length==0){
-
-data="No tournaments available";
-
-}
-else{
-
-tournaments.forEach((t,index)=>{
-
-data += `
-<div class="card">
-
-<h3>🏆 ${t.name}</h3>
-
-<p>💰 Fee: ${t.fee}</p>
-
-<p>🎁 Prize: ${t.prize}</p>
-
-<button onclick="deleteTournament(${index})">
-🗑️ DELETE
-</button>
-
-</div>
-`;
-
-});
-
-}
-
-document.getElementById("playersData").innerHTML=data;
-
-  }
   function viewPlayers(){
 
-document.getElementById("playerList").style.display="block";
-
-let data="";
+let data="<h2>👥 Players</h2>";
 
 if(players.length==0){
 
-data="No players added";
+data+="No Players";
 
 }
+
 else{
 
 players.forEach((p)=>{
 
-data += `
+data+=`
+
 <div class="card">
+
 <h3>👤 ${p.name}</h3>
+
 <p>UID: ${p.uid}</p>
+
 <p>💰 Coins: ${p.coins}</p>
+
 </div>
+
 `;
 
 });
 
 }
 
-document.getElementById("playersData").innerHTML=data;
-
-  }
-function viewJoinedPlayers(){
-
-document.getElementById("playerList").style.display="block";
-
-let data="";
-
-if(joinedPlayers.length==0){
-
-data="No one joined tournament";
+adminData.innerHTML=data;
 
 }
-else{
 
-joinedPlayers.forEach((p)=>{
 
-data += `
+
+
+function createTournamentBox(){
+
+adminData.innerHTML=`
+
 <div class="card">
-<h3>👤 ${p.name}</h3>
-<p>UID: ${p.uid}</p>
-<p>🏆 Tournament: ${p.tournament}</p>
+
+<h2>🏆 Create Tournament</h2>
+
+<input id="tName" placeholder="Tournament Name">
+
+<input id="tFee" placeholder="Entry Fee">
+
+<input id="tPrize" placeholder="Prize">
+
+<input id="tSlots" placeholder="Total Slots">
+
+
+<button onclick="createTournament()">
+CREATE
+</button>
+
 </div>
+
 `;
 
-});
-
-}
-
-document.getElementById("playersData").innerHTML=data;
-
-}
-
-function showCreateTournament(){
-document.getElementById("tournamentBox").style.display="block";
-
-}
-function showAddCoins(){
-
-document.getElementById("coinsBox").style.display="block";
-
 }
 
 
-function addCoins(){
-
-let uid=document.getElementById("coinUID").value;
-let amount=document.getElementById("coinAmount").value;
 
 
-let player=players.find(p=>p.uid==uid);
+function createTournament(){
+
+let t={
+
+name:tName.value,
+
+fee:Number(tFee.value),
+
+prize:tPrize.value,
+
+slots:Number(tSlots.value),
+
+joined:0
+
+};
 
 
-if(!player){
+if(!t.name){
 
-alert("Player not found ❌");
+alert("Fill details");
+
 return;
 
 }
 
 
-player.coins += Number(amount);
+tournaments.push(t);
+
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+
+alert("Tournament Created 🔥");
+
+adminData.innerHTML="Tournament Created";
+
+}
+
+
+
+
+function manageTournament(){
+
+let data="<h2>🏆 Manage Tournament</h2>";
+
+
+if(tournaments.length==0){
+
+data+="No Tournament";
+
+}
+
+else{
+
+
+tournaments.forEach((t,index)=>{
+
+
+data+=`
+
+<div class="card">
+
+<h3>${t.name}</h3>
+
+<p>Prize: ${t.prize}</p>
+
+<p>Slots: ${t.joined}/${t.slots}</p>
+
+
+<button onclick="deleteTournament(${index})">
+
+🗑️ DELETE
+
+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+adminData.innerHTML=data;
+
+
+}
+
+
+
+
+function deleteTournament(index){
+
+tournaments.splice(index,1);
+
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+
+alert("Tournament Deleted");
+
+
+manageTournament();
+
+}
+
+
+
+
+
+function addCoinsBox(){
+
+adminData.innerHTML=`
+
+<div class="card">
+
+<h2>💰 Add Coins</h2>
+
+
+<input id="coinUID" placeholder="Player UID">
+
+
+<input id="coinAmount" placeholder="Coins">
+
+
+<button onclick="addCoins()">
+
+ADD
+
+</button>
+
+
+</div>
+
+`;
+
+}
+
+
+
+
+function addCoins(){
+
+
+let p=players.find(
+x=>x.uid==coinUID.value
+);
+
+
+if(!p){
+
+alert("Player Not Found");
+
+return;
+
+}
+
+
+p.coins += Number(coinAmount.value);
 
 
 localStorage.setItem(
@@ -539,168 +582,90 @@ JSON.stringify(players)
 );
 
 
-alert("Coins Added 💰🔥");
+alert("Coins Added 💰");
 
-location.reload();
-
-}
-  
-function joinTournament(tourName){
-
-let name=document.getElementById("showName").innerHTML.replace("👤 ","");
-let uid=document.getElementById("showUID").innerHTML.replace("UID: ","");
-
-let player = players.find(p => p.uid == uid);
-
-let tournament = tournaments.find(t => t.name == tourName);
-if(Number(tournament.joined) >= Number(tournament.slots)){
-alert("Tournament Full ❌");
-return;
-
-}
-
-// Check already joined
-let already = joinedPlayers.find(j => 
-j.uid == uid && j.tournament == tourName
-);
-
-if(already){
-
-alert("You already joined this tournament ❌");
-return;
 
 }
 
 
-// Check coins
-
-if(player.coins < Number(tournament.fee)){
-
-alert("Not enough coins 💰");
-return;
-
-}
 
 
-// Deduct coins
+function createRoomBox(){
 
-player.coins -= Number(tournament.fee);
+adminData.innerHTML=`
 
+<div class="card">
 
-// Save player update
-
-localStorage.setItem("players",JSON.stringify(players));
-
-
-// Add joined player
-
-joinedPlayers.push({
-
-name:name,
-uid:uid,
-tournament:tourName
-
-});
-tournament.joined++;
-
-localStorage.setItem(
-"tournaments",
-JSON.stringify(tournaments)
-);
-
-localStorage.setItem(
-"joinedPlayers",
-JSON.stringify(joinedPlayers)
-);
+<h2>⭐ Create Star Room</h2>
 
 
-alert("Tournament Joined 🔥");
+<input id="rName" placeholder="Room Name">
 
 
-location.reload();
+<input id="rID" placeholder="Room ID">
+
+
+<input id="rPass" placeholder="Password">
+
+
+<button onclick="createRoom()">
+
+CREATE ROOM
+
+</button>
+
+
+</div>
+
+`;
 
 }
 
-function showCreateRoom(){
 
-document.getElementById("roomBox").style.display="block";
 
-}
+
 function createRoom(){
 
-let name=document.getElementById("roomName").value;
-let id=document.getElementById("roomID").value;
-let pass=document.getElementById("roomPass").value;
 
-if(name=="" || id=="" || pass==""){
-alert("Fill all details ❌");
-return;
-}
+let room={
 
-rooms.push({
-name:name,
-roomID:id,
-password:pass
-});
+name:rName.value,
+
+id:rID.value,
+
+pass:rPass.value
+
+};
+
+
+rooms.push(room);
+
 
 localStorage.setItem(
 "rooms",
 JSON.stringify(rooms)
 );
 
-alert("Star Room Created ⭐🔥");
 
-document.getElementById("roomName").value="";
-document.getElementById("roomID").value="";
-document.getElementById("roomPass").value="";
+alert("Star Room Created ⭐");
 
-  
-
-}
-function viewRooms(){
-
-document.getElementById("roomList").classList.remove("hide");
-
-let data="";
-
-if(rooms.length==0){
-
-data="No Room Available";
-
-}
-else{
-
-rooms.forEach((r)=>{
-
-data += `
-
-<div class="card">
-
-<h3>⭐ ${r.name}</h3>
-
-<p>Room ID: ${r.roomID}</p>
-
-<p>Password: ${r.password}</p>
-
-</div>
-
-`;
-
-});
 
 }
 
-document.getElementById("roomsData").innerHTML=data;
 
-}
- 
+
+
 function logout(){
 
 location.reload();
 
 }
 
+
+
 </script>
 
+
 </body>
+
 </html>
