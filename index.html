@@ -710,7 +710,32 @@ if(rooms.length==0){
 data+="No Room Available";
 
 }
-elfunction joinTournament(index){
+else{
+
+rooms.forEach((r)=>{
+
+data+=`
+
+<div class="card">
+
+<h3>⭐ ${r.name}</h3>
+
+<p>Room ID: ${r.id}</p>
+
+<p>Password: ${r.pass}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("playerData").innerHTML=data;
+
+}
+function joinTournament(index){
 
 let t = tournaments[index];
 
@@ -808,31 +833,9 @@ coinsShow.innerHTML =
 
 playerLogin();
 
-}se{
-
-rooms.forEach((r)=>{
-
-data+=`
-
-<div class="card">
-
-<h3>⭐ ${r.name}</h3>
-
-<p>Room ID: ${r.id}</p>
-
-<p>Password: ${r.pass}</p>
-
-</div>
-
-`;
-
-});
-
 }
 
-document.getElementById("playerData").innerHTML=data;
 
-}
   
   function viewJoinedPlayers(){
 
