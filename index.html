@@ -358,7 +358,7 @@ document.getElementById("dashboard").style.display="block";
 document.getElementById("showName").innerHTML="👤 "+player.name;
 
 document.getElementById("showUID").innerHTML="UID: "+player.uid;
-
+localStorage.setItem("currentPlayerUID", player.uid);
 document.getElementById("showCoins").innerHTML="💰 Coins: "+player.coins;
 
 
@@ -653,6 +653,22 @@ alert("Star Room Created ⭐🔥");
 document.getElementById("roomName").value="";
 document.getElementById("roomID").value="";
 document.getElementById("roomPass").value="";
+
+}
+  function viewRooms(){
+
+let uid = localStorage.getItem("currentPlayerUID");
+
+let joined = joinedPlayers.find(j => j.uid == uid);
+
+if(!joined){
+
+document.getElementById("roomList").classList.remove("hide");
+
+document.getElementById("roomsData").innerHTML =
+"❌ First join tournament to get room details";
+
+return;
 
 }
 function viewRooms(){
