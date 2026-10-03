@@ -621,126 +621,77 @@ location.reload();
 
 }
 
-
-function createTournament(){
-
-let name=document.getElementById("tourName").value;
-let fee=document.getElementById("tourFee").value;
-let prize=document.getElementById("tourPrize").value;
-let slots=document.getElementById("tourSlots").value;
-
-if(name=="" || fee=="" || prize==""){
-alert("Fill all details");
-return;
-}
-
-
-tournaments.push({
-name:name,
-fee:fee,
-prize:prize,
-slots:Number(slots),
-joined:0
-});
-
-
-localStorage.setItem("tournaments",JSON.stringify(tournaments));
-
-
-alert("Tournament Created 🔥");
-
-}
-  function deleteTournament(index){
-
-let confirmDelete = confirm("Delete this tournament?");
-
-if(confirmDelete){
-
-tournaments.splice(index,1);
-
-localStorage.setItem(
-"tournaments",
-JSON.stringify(tournaments)
-);
-
-alert("Tournament Deleted 🗑️");
-
-location.reload();
-
-}
-    
-}
 function showCreateRoom(){
 
 document.getElementById("roomBox").style.display="block";
 
 }
-
-
 function createRoom(){
 
 let name=document.getElementById("roomName").value;
 let id=document.getElementById("roomID").value;
 let pass=document.getElementById("roomPass").value;
 
-
 if(name=="" || id=="" || pass==""){
-
 alert("Fill all details ❌");
 return;
-
 }
-
 
 rooms.push({
-
 name:name,
 roomID:id,
 password:pass
-
 });
-
 
 localStorage.setItem(
 "rooms",
 JSON.stringify(rooms)
 );
 
-
 alert("Star Room Created ⭐🔥");
-
 
 document.getElementById("roomName").value="";
 document.getElementById("roomID").value="";
 document.getElementById("roomPass").value="";
 
 }
+function viewRooms(){
 
+document.getElementById("roomList").classList.remove("hide");
 
+let data="";
 
-name:name,
-roomID:id,
-password:pass
+if(rooms.length==0){
+
+data="No Room Available";
+
+}
+else{
+
+rooms.forEach((r)=>{
+
+data += `
+
+<div class="card">
+
+<h3>⭐ ${r.name}</h3>
+
+<p>Room ID: ${r.roomID}</p>
+
+<p>Password: ${r.password}</p>
+
+</div>
+
+`;
 
 });
 
-
-localStorage.setItem(
-"rooms",
-JSON.stringify(rooms)
-);
-
-
-alert("Star Room Created ⭐🔥");
-
-
-document.getElementById("roomName").value="";
-document.getElementById("roomID").value="";
-document.getElementById("roomPass").value="";
-
 }
 
-  }
+document.getElementById("roomsData").innerHTML=data;
+
+}
+ 
 function logout(){
 
 location.reload();
