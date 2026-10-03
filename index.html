@@ -189,7 +189,9 @@ LOGIN
 <button onclick="createRoomBox()">
 ⭐ CREATE STAR ROOM
 </button>
-
+<button onclick="viewJoinedPlayers()">
+🔥 JOINED PLAYERS
+</button>
 </div>
 
 
@@ -800,6 +802,48 @@ alert("Tournament Joined 🔥");
 
 coinsShow.innerHTML =
 "💰 Coins: " + player.coins;
+
+
+  }
+  function viewJoinedPlayers(){
+
+let data="<h2>🔥 Joined Players</h2>";
+
+
+if(joined.length==0){
+
+data+="No Players Joined";
+
+}
+
+else{
+
+
+joined.forEach((j)=>{
+
+
+data+=`
+
+<div class="card">
+
+<h3>👤 ${j.player}</h3>
+
+<p>UID: ${j.uid}</p>
+
+<p>🏆 Tournament: ${j.tournament}</p>
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+adminData.innerHTML=data;
 
 
   }
