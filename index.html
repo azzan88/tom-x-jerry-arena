@@ -654,21 +654,7 @@ document.getElementById("roomName").value="";
 document.getElementById("roomID").value="";
 document.getElementById("roomPass").value="";
 
-}
-  function viewRooms(){
-
-let uid = localStorage.getItem("currentPlayerUID");
-
-let joined = joinedPlayers.find(j => j.uid == uid);
-
-if(!joined){
-
-document.getElementById("roomList").classList.remove("hide");
-
-document.getElementById("roomsData").innerHTML =
-"❌ First join tournament to get room details";
-
-return;
+  
 
 }
 function viewRooms(){
