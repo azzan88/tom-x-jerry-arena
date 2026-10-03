@@ -710,7 +710,105 @@ if(rooms.length==0){
 data+="No Room Available";
 
 }
-else{
+elfunction joinTournament(index){
+
+let t = tournaments[index];
+
+
+if(t.joined >= t.slots){
+
+alert("Slots Full ❌");
+return;
+
+}
+
+
+let player = players.find(
+p => p.uid == currentPlayer.uid
+);
+
+
+// Already joined check
+
+let already = joined.find(
+j => j.uid == player.uid && j.tournament == t.name
+);
+
+
+if(already){
+
+alert("You already joined this tournament ❌");
+return;
+
+}
+
+
+
+if(player.coins < t.fee){
+
+alert("Not Enough Coins ❌");
+return;
+
+}
+
+
+// Cut entry fee
+
+player.coins -= t.fee;
+
+
+// Increase slots
+
+t.joined++;
+
+
+// Save joined data
+
+joined.push({
+
+player: player.name,
+
+uid: player.uid,
+
+tournament: t.name
+
+});
+
+
+
+// Save all
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+
+localStorage.setItem(
+"joined",
+JSON.stringify(joined)
+);
+
+
+
+alert("Tournament Joined 🔥");
+
+
+// Update screen
+
+coinsShow.innerHTML =
+"💰 Coins: " + player.coins;
+
+
+playerLogin();
+
+}se{
 
 rooms.forEach((r)=>{
 
@@ -735,82 +833,7 @@ data+=`
 document.getElementById("playerData").innerHTML=data;
 
 }
-  function joinTournament(index){
-
-let t = tournaments[index];
-
-
-if(t.joined >= t.slots){
-
-alert("Slots Full ❌");
-return;
-
-}
-
-
-let player = players.find(
-p => p.uid == currentPlayer.uid
-);
-
-
-if(player.coins < t.fee){
-
-alert("Not Enough Coins ❌");
-return;
-
-}
-
-
-// Entry fee cut
-player.coins -= t.fee;
-
-
-// Tournament count increase
-t.joined++;
-
-
-// Save joined player
-joined.push({
-
-player: player.name,
-
-uid: player.uid,
-
-tournament: t.name
-
-});
-
-
-// Save data
-
-localStorage.setItem(
-"players",
-JSON.stringify(players)
-);
-
-
-localStorage.setItem(
-"tournaments",
-JSON.stringify(tournaments)
-);
-
-
-localStorage.setItem(
-"joined",
-JSON.stringify(joined)
-);
-
-
-alert("Tournament Joined 🔥");
-
-
-// Update coins on screen
-
-coinsShow.innerHTML =
-"💰 Coins: " + player.coins;
-
-
-  }
+  
   function viewJoinedPlayers(){
 
 let data="<h2>🔥 Joined Players</h2>";
