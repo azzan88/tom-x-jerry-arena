@@ -339,7 +339,9 @@ tData+=`
 <p>🎁 Prize: ${t.prize}</p>
 
 <p>👥 Slots: ${t.joined}/${t.slots}</p>
-
+<button onclick="joinTournament(${tournaments.indexOf(t)})">
+JOIN MATCH 🔥
+</button>
 </div>
 
 `;
@@ -725,6 +727,82 @@ data+=`
 document.getElementById("playerData").innerHTML=data;
 
 }
+  function joinTournament(index){
+
+let t = tournaments[index];
+
+
+if(t.joined >= t.slots){
+
+alert("Slots Full ❌");
+return;
+
+}
+
+
+let player = players.find(
+p => p.uid == currentPlayer.uid
+);
+
+
+if(player.coins < t.fee){
+
+alert("Not Enough Coins ❌");
+return;
+
+}
+
+
+// Entry fee cut
+player.coins -= t.fee;
+
+
+// Tournament count increase
+t.joined++;
+
+
+// Save joined player
+joined.push({
+
+player: player.name,
+
+uid: player.uid,
+
+tournament: t.name
+
+});
+
+
+// Save data
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+localStorage.setItem(
+"tournaments",
+JSON.stringify(tournaments)
+);
+
+
+localStorage.setItem(
+"joined",
+JSON.stringify(joined)
+);
+
+
+alert("Tournament Joined 🔥");
+
+
+// Update coins on screen
+
+coinsShow.innerHTML =
+"💰 Coins: " + player.coins;
+
+
+  }
 function logout(){
 
 location.reload();
