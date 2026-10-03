@@ -207,7 +207,6 @@ LOGIN
 
 
 <script>
-alert("TEST");
 let players =
 JSON.parse(localStorage.getItem("players")) || [];
 
@@ -248,7 +247,7 @@ function openPlayer(){
 
 hideAll();
 
-playerLogin.style.display="block";
+document.getElementById("playerLogin").style.display="block";
 
 }
 
@@ -258,7 +257,7 @@ function openAdmin(){
 
 hideAll();
 
-adminLogin.style.display="block";
+document.getElementById("adminLogin").style.display="block";
 
 }
 
@@ -307,7 +306,7 @@ currentPlayer=player;
 
 hideAll();
 
-playerPanel.style.display="block";
+document.getElementById("playerPanel").style.display="block";
 
 
 playerNameShow.innerHTML="👤 "+player.name;
