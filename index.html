@@ -1408,17 +1408,38 @@ document.getElementById("tournamentSection").innerHTML="";
 
 document.getElementById("convertSection").innerHTML="";
 
+
 document.getElementById("buyCoinsSection").innerHTML=`
 
 <div class="card">
 
-<h2>🛒 Buy Coins</h2>
+<h2>🛒 BUY COINS</h2>
 
-<p>Coin purchase system coming soon 🔥</p>
+<h3>💳 EasyPaisa Payment</h3>
+
+<p>📱 Number: 03151476352</p>
+
+<p>👤 Name: Iram Shahzadi</p>
+
+<hr>
+
+<p>Payment ke baad details fill karein</p>
+
+<input id="buyAmount" placeholder="Enter Coins Amount">
+
+<input id="transactionID" placeholder="Enter Transaction ID">
+
+
+<button onclick="buyCoinRequest()">
+📤 SEND REQUEST
+</button>
+
 
 </div>
 
 `;
+
+
 
 }
 function logout(){
