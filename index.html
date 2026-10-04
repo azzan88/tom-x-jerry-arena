@@ -1442,6 +1442,53 @@ document.getElementById("buyCoinsSection").innerHTML=`
 
 
 }
+ function buyCoinRequest(){
+
+let amount = Number(buyAmount.value);
+
+let trx = transactionID.value;
+
+
+if(!amount || trx==""){
+
+alert("Fill all details");
+return;
+
+}
+
+
+let requests =
+JSON.parse(localStorage.getItem("buyRequests")) || [];
+
+
+requests.push({
+
+name: currentPlayer.name,
+
+uid: currentPlayer.uid,
+
+coins: amount,
+
+transaction: trx,
+
+status:"Pending"
+
+});
+
+
+localStorage.setItem(
+"buyRequests",
+JSON.stringify(requests)
+);
+
+
+alert("Buy Coin Request Sent ✅");
+
+
+buyAmount.value="";
+transactionID.value="";
+
+ }
 function logout(){
 
 location.reload();
