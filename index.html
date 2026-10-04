@@ -198,6 +198,9 @@ LOGIN
   <button onclick="resultBox()">
 🏆 MATCH RESULT
   </button>
+  <button onclick="viewWinners()">
+🏆 VIEW WINNERS
+  </button>
 </div>
 
 
@@ -232,7 +235,8 @@ JSON.parse(localStorage.getItem("rooms")) || [];
 
 let joined =
 JSON.parse(localStorage.getItem("joined")) || [];
-
+let winners =
+JSON.parse(localStorage.getItem("winners")) || [];
 
 let currentPlayer=null;
 
@@ -933,7 +937,23 @@ return;
 
 // Add reward
 winner.coins += prize;
+winners.push({
 
+name:winner.name,
+
+uid:winner.uid,
+
+prize:prize,
+
+date:new Date().toLocaleDateString()
+
+});
+
+
+localStorage.setItem(
+"winners",
+JSON.stringify(winners)
+);
 
 // Save
 
@@ -1076,6 +1096,46 @@ alert("Room Status Changed 🔄");
 
 
 manageRooms();
+
+  }
+  function viewWinners(){
+
+let data="<h2>🏆 Winners History</h2>";
+
+
+if(winners.length==0){
+
+data+="No Winners Yet";
+
+}
+
+else{
+
+winners.forEach((w)=>{
+
+data+=`
+
+<div class="card">
+
+<h3>👑 ${w.name}</h3>
+
+<p>UID: ${w.uid}</p>
+
+<p>💰 Prize: ${w.prize} Coins</p>
+
+<p>📅 Date: ${w.date}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+adminData.innerHTML=data;
+
 
   }
 function logout(){
