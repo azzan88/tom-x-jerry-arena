@@ -143,6 +143,7 @@ LOGIN
 <p id="statsShow"></p>
   <p id="rateShow"></p>
   <p id="rankShow"></p>
+  <p id="prizeShow"></p>
 </div>
   
 <div id="tournamentData"></div>
@@ -362,6 +363,10 @@ rank="💎 Diamond";
 
 rankShow.innerHTML =
 "🏆 Rank: "+rank;
+  let totalPrize = player.prize || 0;
+
+prizeShow.innerHTML =
+"💰 Total Prize: "+totalPrize+" Coins";
 let tData="";
 
 if(tournaments.length==0){
@@ -970,6 +975,7 @@ return;
 
 // Add reward
 winner.coins += prize;
+    winner.prize = (winner.prize || 0) + prize;
  winner.wins = (winner.wins || 0) + 1;
 winners.push({
 
