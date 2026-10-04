@@ -438,7 +438,26 @@ localStorage.setItem(
 "players",
 JSON.stringify(players)
 );
+supabase
+.from("players")
+.insert([
+{
+name: player.name,
+uid: player.uid,
+coins: player.coins
+}
+])
+.then(({data,error})=>{
 
+if(error){
+alert("Supabase Error");
+console.log(error);
+}
+else{
+console.log("Player Saved Online ✅");
+}
+
+});
 }
 
 
