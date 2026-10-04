@@ -141,6 +141,7 @@ LOGIN
 
 <p id="coinsShow"></p>
 <p id="statsShow"></p>
+  <p id="rateShow"></p>
 </div>
   
 <div id="tournamentData"></div>
@@ -336,10 +337,16 @@ playerNameShow.innerHTML="👤 "+player.name;
 
 uidShow.innerHTML="UID: "+player.uid;
 coinsShow.innerHTML="💰 Coins: "+player.coins;
-
 statsShow.innerHTML =
 "🎮 Matches: "+(player.matches || 0)+" | 🏆 Wins: "+(player.wins || 0);
+let rate = 0;
 
+if(player.matches > 0){
+rate = Math.floor((player.wins / player.matches) * 100);
+}
+
+rateShow.innerHTML =
+"📊 Win Rate: "+rate+"%";
 let tData="";
 
 if(tournaments.length==0){
