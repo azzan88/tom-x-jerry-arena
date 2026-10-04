@@ -189,6 +189,9 @@ LOGIN
 <button onclick="createRoomBox()">
 ⭐ CREATE STAR ROOM
 </button>
+  <button onclick="manageRooms()">
+⚙️ MANAGE STAR ROOMS
+  </button>
 <button onclick="viewJoinedPlayers()">
 🔥 JOINED PLAYERS
 </button>
@@ -984,6 +987,65 @@ alert("Status Changed 🔄");
 manageTournament();
 
   }
+  function manageRooms(){
+
+let data="<h2>⭐ Manage Star Rooms</h2>";
+
+if(rooms.length==0){
+
+data+="No Rooms Available";
+
+}
+
+else{
+
+rooms.forEach((r,index)=>{
+
+data+=`
+
+<div class="card">
+
+<h3>⭐ ${r.name}</h3>
+
+<p>Room ID: ${r.id}</p>
+
+<p>Password: ${r.pass}</p>
+
+<button onclick="deleteRoom(${index})">
+🗑️ DELETE ROOM
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+adminData.innerHTML=data;
+
+}
+
+
+
+function deleteRoom(index){
+
+rooms.splice(index,1);
+
+
+localStorage.setItem(
+"rooms",
+JSON.stringify(rooms)
+);
+
+
+alert("Room Deleted ⭐");
+
+
+manageRooms();
+
+}
 function logout(){
 
 location.reload();
