@@ -144,6 +144,8 @@ LOGIN
   <p id="rateShow"></p>
   <p id="rankShow"></p>
   <p id="prizeShow"></p>
+  <p id="rankShow"></p>
+<p id="rubyShow"></p>
 </div>
   
 <div id="tournamentData"></div>
@@ -341,7 +343,22 @@ uidShow.innerHTML="UID: "+player.uid;
 coinsShow.innerHTML="💰 Coins: "+player.coins;
 statsShow.innerHTML =
 "🎮 Matches: "+(player.matches || 0)+" | 🏆 Wins: "+(player.wins || 0);
+  rubyShow.innerHTML =
+"💎 Ruby: "+(player.coins || 0);
+
+let rank="🥉 Bronze";
+
+if(player.wins >= 10){
+rank="🥇 Gold";
+}
+else if(player.wins >= 5){
+rank="🥈 Silver";
+}
+
+rankShow.innerHTML =
+"🏅 Rank: "+rank;
 let rate = 0;
+
 
 if(player.matches > 0){
 rate = Math.floor((player.wins / player.matches) * 100);
