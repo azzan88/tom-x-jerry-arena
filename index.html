@@ -1522,7 +1522,13 @@ data+=`
 <p>🔢 Transaction ID: ${r.transaction}</p>
 
 <p>📌 Status: ${r.status}</p>
+<button onclick="approveRequest(${index})">
+✅ APPROVE
+</button>
 
+<button onclick="rejectRequest(${index})">
+❌ REJECT
+</button>
 </div>
 
 `;
