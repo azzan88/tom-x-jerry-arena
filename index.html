@@ -146,6 +146,11 @@ LOGIN
   <p id="prizeShow"></p>
   <p id="rankShow"></p>
 <p id="rubyShow"></p>
+  <input id="convertAmount" placeholder="Enter Coins">
+
+<button onclick="convertCoins()">
+💎 CONVERT TO RUBY
+</button>
 </div>
   
 <div id="tournamentData"></div>
@@ -310,7 +315,7 @@ name:name,
 uid:uid,
 
 coins:100,
-
+ruby:0,
 matches:0,
 
 wins:0
@@ -344,7 +349,7 @@ coinsShow.innerHTML="💰 Coins: "+player.coins;
 statsShow.innerHTML =
 "🎮 Matches: "+(player.matches || 0)+" | 🏆 Wins: "+(player.wins || 0);
   rubyShow.innerHTML =
-"💎 Ruby: "+(player.coins || 0);
+"💎 Ruby: "+(player.ruby || 0);
 
 
 let rate = 0;
@@ -1183,6 +1188,63 @@ data+=`
 
 adminData.innerHTML=data;
 
+
+  }
+  function convertCoins(){
+
+let amount = Number(convertAmount.value);
+
+
+if(!amount || amount <= 0){
+
+alert("Enter Coins Amount");
+return;
+
+}
+
+
+if(currentPlayer.coins < amount){
+
+alert("Not Enough Coins ❌");
+return;
+
+}
+
+
+// Remove coins
+currentPlayer.coins -= amount;
+
+
+// Add ruby
+currentPlayer.ruby = (currentPlayer.ruby || 0) + Math.floor(amount * 0.75);
+
+
+// Save player data
+
+let index = players.findIndex(
+p => p.uid == currentPlayer.uid
+);
+
+players[index] = currentPlayer;
+
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+// Update screen
+
+coinsShow.innerHTML =
+"💰 Coins: "+currentPlayer.coins;
+
+
+rubyShow.innerHTML =
+"💎 Ruby: "+currentPlayer.ruby;
+
+
+alert("Coins Converted To Ruby 💎🔥");
 
   }
 function logout(){
