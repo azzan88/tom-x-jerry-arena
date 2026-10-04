@@ -1540,6 +1540,43 @@ data+=`
 adminData.innerHTML=data;
 
   }
+  function approveRequest(index){
+
+let requests =
+JSON.parse(localStorage.getItem("buyRequests")) || [];
+
+let req = requests[index];
+
+let player = players.find(
+p => p.uid == req.uid
+);
+
+if(!player){
+
+alert("Player Not Found");
+return;
+
+}
+
+player.coins += req.coins;
+
+req.status="Approved";
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+localStorage.setItem(
+"buyRequests",
+JSON.stringify(requests)
+);
+
+alert("Coins Added Successfully 💰🔥");
+
+viewBuyRequests();
+
+  }
 function logout(){
 
 location.reload();
