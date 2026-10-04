@@ -317,7 +317,14 @@ LOGIN
 
 
 <script>
- 
+ const supabaseUrl = "https://mowzllkumktnobpplulj.supabase.co";
+
+const supabaseKey = "APNI_ANON_KEY_YAHAN_PASTE_KARO";
+
+const supabase = window.supabase.createClient(
+supabaseUrl,
+supabaseKey
+);
 let players =
 JSON.parse(localStorage.getItem("players")) || [];
 
@@ -423,7 +430,8 @@ supabase
 {
 name: player.name,
 uid: player.uid,
-coins: player.coins
+coins: player.coins,
+phone: ""
 }
 ])
 .then(({data,error})=>{
@@ -438,6 +446,7 @@ console.log("Player Saved Online ✅");
 
 });
 }
+  player.name
 
 
 currentPlayer=player;
