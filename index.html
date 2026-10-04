@@ -948,6 +948,7 @@ return;
 
 // Add reward
 winner.coins += prize;
+ winner.wins = (winner.wins || 0) + 1;
 winners.push({
 
 name:winner.name,
