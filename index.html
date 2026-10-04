@@ -540,7 +540,11 @@ JOIN MATCH 🔥
 
 }
 
-document.getElementById("tournamentData").innerHTML=tData;
+let box = document.getElementById("tournamentSection");
+
+if(box){
+box.innerHTML=tData;
+}
 
 }
 
