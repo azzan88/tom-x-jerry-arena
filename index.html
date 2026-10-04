@@ -1010,7 +1010,11 @@ data+=`
 <p>Room ID: ${r.id}</p>
 
 <p>Password: ${r.pass}</p>
+<button onclick="changeRoomStatus(${index})">
+🔄 CHANGE STATUS
+</button>
 
+<p>📌 Status: ${r.status}</p>
 <button onclick="deleteRoom(${index})">
 🗑️ DELETE ROOM
 </button>
@@ -1046,6 +1050,34 @@ alert("Room Deleted ⭐");
 manageRooms();
 
 }
+  function changeRoomStatus(index){
+
+let r = rooms[index];
+
+if(r.status=="Active"){
+
+r.status="Closed";
+
+}
+else{
+
+r.status="Active";
+
+}
+
+
+localStorage.setItem(
+"rooms",
+JSON.stringify(rooms)
+);
+
+
+alert("Room Status Changed 🔄");
+
+
+manageRooms();
+
+  }
 function logout(){
 
 location.reload();
