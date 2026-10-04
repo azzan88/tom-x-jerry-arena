@@ -1347,7 +1347,7 @@ document.getElementById("pageContent").innerHTML=`
  
 
   }
-  function showTournament(){
+function showTournament(){
 
 document.getElementById("pageContent").innerHTML="";
 
@@ -1355,16 +1355,52 @@ document.getElementById("convertSection").innerHTML="";
 
 document.getElementById("buyCoinsSection").innerHTML="";
 
+
 let data="<h2>🏆 TOURNAMENT</h2>";
+
 
 if(tournaments.length==0){
 
 data+="<p>No Tournament Available</p>";
 
-tournaments.forEach((t,index)=>{
+}
+
 else{
 
-{
+tournaments.forEach((t,index)=>{
+
+
+data+=`
+
+<div class="card">
+
+<h3>🏆 ${t.name}</h3>
+
+<p>💰 Fee: ${t.fee}</p>
+
+<p>🎁 Prize: ${t.prize}</p>
+
+<p>👥 Slots: ${t.joined}/${t.slots}</p>
+
+<p>📌 Status: ${t.status}</p>
+
+<button onclick="joinTournament(${index})">
+JOIN MATCH 🔥
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+document.getElementById("tournamentSection").innerHTML=data;
+
+
+}
 
 data+=`
 
