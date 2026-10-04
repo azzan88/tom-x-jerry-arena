@@ -142,6 +142,7 @@ LOGIN
 <p id="coinsShow"></p>
 <p id="statsShow"></p>
   <p id="rateShow"></p>
+  <p id="rankShow"></p>
 </div>
   
 <div id="tournamentData"></div>
@@ -347,6 +348,20 @@ rate = Math.floor((player.wins / player.matches) * 100);
 
 rateShow.innerHTML =
 "📊 Win Rate: "+rate+"%";
+  let rank="🥉 Bronze";
+
+if(player.wins >= 3 && player.wins < 6){
+rank="🥈 Silver";
+}
+else if(player.wins >= 6 && player.wins < 10){
+rank="🥇 Gold";
+}
+else if(player.wins >= 10){
+rank="💎 Diamond";
+}
+
+rankShow.innerHTML =
+"🏆 Rank: "+rank;
 let tData="";
 
 if(tournaments.length==0){
