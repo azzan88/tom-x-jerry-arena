@@ -362,7 +362,7 @@ tData+=`
 <p>🎁 Prize: ${t.prize}</p>
 
 <p>👥 Slots: ${t.joined}/${t.slots}</p>
-<p>📌 Status: ${t.status}</p>
+<p>📌 Status: ${t.status || "Upcoming"}</p>
 <button onclick="joinTournament(${tournaments.indexOf(t)})">
 JOIN MATCH 🔥
 </button>
@@ -798,7 +798,7 @@ return;
 // Cut entry fee
 
 player.coins -= t.fee;
-
+player.matches = (player.matches || 0) + 1;
 
 // Increase slots
 
