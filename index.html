@@ -1286,6 +1286,25 @@ rubyShow.innerHTML =
 alert("Coins Converted To Ruby 💎🔥");
 
   }
+  function showProfile(){
+
+document.getElementById("playerData").innerHTML=`
+
+<div class="card">
+
+<h2>👤 Player Profile</h2>
+
+<p>Name: ${currentPlayer.name}</p>
+
+<p>UID: ${currentPlayer.uid}</p>
+
+<p>Coins: ${currentPlayer.coins}</p>
+
+</div>
+
+`;
+
+  }
 function logout(){
 
 location.reload();
