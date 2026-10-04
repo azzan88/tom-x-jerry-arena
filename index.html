@@ -1288,6 +1288,13 @@ alert("Coins Converted To Ruby 💎🔥");
   }
   function showProfile(){
 
+if(currentPlayer==null){
+
+alert("Please Login First");
+return;
+
+}
+
 document.getElementById("playerData").innerHTML=`
 
 <div class="card">
@@ -1298,11 +1305,15 @@ document.getElementById("playerData").innerHTML=`
 
 <p>UID: ${currentPlayer.uid}</p>
 
-<p>Coins: ${currentPlayer.coins}</p>
+<p>💰 Coins: ${currentPlayer.coins}</p>
+
+<p>💎 Ruby: ${currentPlayer.ruby || 0}</p>
 
 </div>
 
 `;
+
+  }
 
   }
 function logout(){
