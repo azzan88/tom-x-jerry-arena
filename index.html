@@ -169,17 +169,36 @@ LOGIN
 💎 CONVERT TO RUBY
 </button>
 </div>
-  <div id="playerData"></div>
-<div id="tournamentData"></div>
+<div id="profileSection"></div>
+<div id="pageContent"></div>
+<div id="tournamentSection"></div>
+
+<div id="convertSection"></div>
+
+<div id="buyCoinsSection"></div>
 
 <button onclick="viewRooms()">
 ⭐ VIEW STAR ROOM
 </button>
 <div class="bottomNav">
 
-<button onclick="showProfile();">
+<button onclick="showProfile()">
 👤 Profile
 </button>
+
+<button onclick="showTournament()">
+🏆 Tournament
+</button>
+
+<button onclick="showConvert()">
+💎 Convert
+</button>
+
+<button onclick="showBuyCoins()">
+🛒 Buy Coins
+</button>
+
+</div>
 
 
 
@@ -1273,25 +1292,33 @@ alert("Coins Converted To Ruby 💎🔥");
   }
   function showProfile(){
 
-document.getElementById("playerData").innerHTML = `
+document.getElementById("tournamentSection").innerHTML="";
+document.getElementById("convertSection").innerHTML="";
+document.getElementById("buyCoinsSection").innerHTML="";
+
+document.getElementById("pageContent").innerHTML=`
 
 <div class="card">
 
-<h2>👤 Player Profile</h2>
+<h2>👤 PLAYER PROFILE</h2>
 
-<p>Name: ${currentPlayer.name}</p>
+<p>🔥 Name: ${currentPlayer.name}</p>
 
-<p>UID: ${currentPlayer.uid}</p>
+<p>🆔 UID: ${currentPlayer.uid}</p>
 
 <p>💰 Coins: ${currentPlayer.coins}</p>
 
 <p>💎 Ruby: ${currentPlayer.ruby || 0}</p>
 
+<p>🎮 Matches: ${currentPlayer.matches || 0}</p>
+
+<p>🏆 Wins: ${currentPlayer.wins || 0}</p>
+
 </div>
 
 `;
 
-
+ 
 
   }
 function logout(){
