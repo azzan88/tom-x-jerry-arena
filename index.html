@@ -1492,6 +1492,48 @@ buyAmount.value="";
 transactionID.value="";
 
  }
+  function viewBuyRequests(){
+
+let requests =
+JSON.parse(localStorage.getItem("buyRequests")) || [];
+
+let data="<h2>🛒 BUY COIN REQUESTS</h2>";
+
+if(requests.length==0){
+
+data+="<p>No Requests</p>";
+
+}
+
+else{
+
+requests.forEach((r,index)=>{
+
+data+=`
+
+<div class="card">
+
+<h3>👤 ${r.name}</h3>
+
+<p>🆔 UID: ${r.uid}</p>
+
+<p>💰 Coins: ${r.coins}</p>
+
+<p>🔢 Transaction ID: ${r.transaction}</p>
+
+<p>📌 Status: ${r.status}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+adminData.innerHTML=data;
+
+  }
 function logout(){
 
 location.reload();
