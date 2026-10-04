@@ -299,9 +299,17 @@ let player=players.find(p=>p.uid==uid);
 if(!player){
 
 player={
+
 name:name,
+
 uid:uid,
-coins:100
+
+coins:100,
+
+matches:0,
+
+wins:0
+
 };
 
 
@@ -329,6 +337,8 @@ playerNameShow.innerHTML="👤 "+player.name;
 uidShow.innerHTML="UID: "+player.uid;
 
 coinsShow.innerHTML="💰 Coins: "+player.coins;
+  statsShow.innerHTML =
+"🎮 Matches: "+(player.matches || 0)+" | 🏆 Wins: "+(player.wins || 0);
 let tData="";
 
 if(tournaments.length==0){
