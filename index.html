@@ -66,7 +66,24 @@ margin-top:15px;
 .hide{
 display:none;
 }
+.hide{
+display:none;
+}
 
+.bottomNav{
+display:flex;
+position:fixed;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+max-width:420px;
+background:#111;
+padding:8px;
+border-radius:15px;
+box-shadow:0 0 15px red;
+gap:5px;
+}
 </style>
 
 </head>
@@ -159,7 +176,29 @@ LOGIN
 <button onclick="viewRooms()">
 ⭐ VIEW STAR ROOM
 </button>
+<div class="bottomNav">
 
+<button onclick="showProfile()">
+👤 Profile
+</button>
+
+<button onclick="showTournament()">
+🏆 Tournament
+</button>
+
+<button onclick="showRewards()">
+🎁 Rewards
+</button>
+
+<button onclick="showConvert()">
+💎 Convert
+</button>
+
+<button onclick="showBuyCoins()">
+🛒 Buy Coins
+</button>
+
+</div>
 <button onclick="logout()">
 🚪 LOGOUT
 </button>
