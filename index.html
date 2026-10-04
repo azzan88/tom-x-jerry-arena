@@ -140,7 +140,7 @@ LOGIN
 <p id="uidShow"></p>
 
 <p id="coinsShow"></p>
-
+<p id="statsShow"></p>
 </div>
   
 <div id="tournamentData"></div>
@@ -335,7 +335,10 @@ document.getElementById("playerPanel").style.display="block";
 playerNameShow.innerHTML="👤 "+player.name;
 
 uidShow.innerHTML="UID: "+player.uid;
+coinsShow.innerHTML="💰 Coins: "+player.coins;
 
+statsShow.innerHTML =
+"🎮 Matches: "+(player.matches || 0)+" | 🏆 Wins: "+(player.wins || 0);
 
 let tData="";
 
