@@ -19,22 +19,42 @@ min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#000,#700000);
+background:
+radial-gradient(circle at top,#ff0000,#000 60%);
 color:white;
+overflow-x:hidden;
 }
 
 .container{
 width:95%;
 max-width:420px;
-background:#111;
-padding:20px;
-border-radius:20px;
-box-shadow:0 0 25px red;
+background:rgba(15,15,15,0.95);
+padding:22px;
+border-radius:25px;
+border:1px solid #ff0000;
+box-shadow:
+0 0 15px red,
+0 0 40px rgba(255,0,0,0.5);
 text-align:center;
+backdrop-filter:blur(10px);
 }
 
 h1{
 color:#ffcc00;
+font-size:28px;
+text-shadow:
+0 0 10px red,
+0 0 20px orange;
+letter-spacing:1px;
+}
+
+h2{
+color:#ffcc00;
+text-shadow:0 0 10px red;
+}
+
+h3{
+color:#ff9900;
 }
 
 input,button{
@@ -51,16 +71,28 @@ color:white;
 }
 
 button{
-background:linear-gradient(45deg,red,orange);
+background:linear-gradient(45deg,#ff0000,#ff8c00);
 color:white;
 font-weight:bold;
+font-size:15px;
+letter-spacing:0.5px;
+cursor:pointer;
+box-shadow:0 0 10px red;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px orange;
 }
 
 .card{
-background:#222;
-padding:15px;
-border-radius:15px;
+background:linear-gradient(145deg,#1a1a1a,#2b0000);
+padding:18px;
+border-radius:18px;
 margin-top:15px;
+border:1px solid rgba(255,0,0,0.5);
+box-shadow:0 0 15px rgba(255,0,0,0.4);
 }
 
 .hide{
@@ -73,16 +105,24 @@ display:none;
 .bottomNav{
 display:flex;
 position:fixed;
-bottom:10px;
+bottom:12px;
 left:50%;
 transform:translateX(-50%);
-width:90%;
+width:92%;
 max-width:420px;
-background:#111;
-padding:8px;
-border-radius:15px;
-box-shadow:0 0 15px red;
-gap:5px;
+background:rgba(20,20,20,0.95);
+padding:10px;
+border-radius:20px;
+border:1px solid red;
+box-shadow:0 0 20px red;
+gap:6px;
+backdrop-filter:blur(10px);
+}
+
+.bottomNav button{
+font-size:12px;
+padding:10px 5px;
+margin:0;
 }
 </style>
 
@@ -1301,23 +1341,6 @@ document.getElementById("buyCoinsSection").innerHTML="";
 
 document.getElementById("pageContent").innerHTML=`
 
-<div class="card">
-
-<h2>👤 PLAYER PROFILE</h2>
-
-<p>🔥 Name: ${currentPlayer.name}</p>
-
-<p>🆔 UID: ${currentPlayer.uid}</p>
-
-<p>💰 Coins: ${currentPlayer.coins}</p>
-
-<p>💎 Ruby: ${currentPlayer.ruby || 0}</p>
-
-<p>🎮 Matches: ${currentPlayer.matches || 0}</p>
-
-<p>🏆 Wins: ${currentPlayer.wins || 0}</p>
-
-</div>
 
 `;
 
@@ -1341,7 +1364,7 @@ data+="<p>No Tournament Available</p>";
 }
 else{
 
-tournaments.forEach((t,index)=>{
+tournaments.forEach((tdocument.getElementById("pageContent").innerHTML=`,index)=>{
 
 data+=`
 
