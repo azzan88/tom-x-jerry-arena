@@ -715,7 +715,7 @@ data+="No Room Available";
 }
 else{
 
-rooms.forEach((r)=>{
+rooms.filter(r=>r.status=="Active").forEach((r)=>{
 
 data+=`
 
