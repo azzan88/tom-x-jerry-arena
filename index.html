@@ -382,8 +382,7 @@ document.getElementById("adminLogin").style.display="block";
 
 
 
-function playerLogin(){
-
+async function playerLogin(){
 let name=pName.value;
 
 let uid=pUID.value;
@@ -398,7 +397,19 @@ return;
 
 
 let player=players.find(p=>p.uid==uid);
+// Check player online from Supabase
+let {data: onlinePlayer, error} = await supabase
+.from("players")
+.select("*")
+.eq("uid", uid)
+.single();
 
+
+if(onlinePlayer){
+
+player = onlinePlayer;
+
+}
 
 if(!player){
 
@@ -412,8 +423,8 @@ coins:100,
 ruby:0,
 matches:0,
 
-wins:0
-
+wins:0,
+prize:0
 };
 
 
@@ -446,7 +457,22 @@ console.log("Player Saved Online ✅");
 
 });
 }
- 
+ // Update player data
+let localIndex = players.findIndex(
+p => p.uid == player.uid
+);
+
+if(localIndex >= 0){
+players[localIndex] = player;
+}
+else{
+players.push(player);
+}
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
 currentPlayer=player;
 
 
@@ -555,25 +581,40 @@ alert("Wrong Login");
 }
 
 }
-  function viewPlayers(){
+  async function viewPlayers(){
 
-let data="<h2>👥 Players</h2>";
+let data="<h2>👥 ONLINE PLAYERS</h2>";
 
-if(players.length==0){
+let {data: onlinePlayers, error} = await supabase
+.from("players")
+.select("*");
 
-data+="No Players";
+
+if(error){
+
+data+="<p>Server Error ❌</p>";
+console.log(error);
+adminData.innerHTML=data;
+return;
+
+}
+
+
+if(!onlinePlayers || onlinePlayers.length==0){
+
+data+="<p>No Players Found</p>";
 
 }
 
 else{
 
-players.forEach((p)=>{
+onlinePlayers.forEach((p)=>{
 
 data+=`
 
 <div class="card">
 
-<h3>👤 ${p.name}</h3>
+<h3>🟢 ${p.name}</h3>
 
 <p>UID: ${p.uid}</p>
 
@@ -586,6 +627,11 @@ data+=`
 });
 
 }
+
+
+adminData.innerHTML=data;
+
+  }
 
 adminData.innerHTML=data;
 
