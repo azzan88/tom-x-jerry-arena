@@ -287,7 +287,7 @@ let player={
 name:name,
 uid:uid,
 password:password,
-coins: onlinePlayer ? onlinePlayer.coins : 100
+coins:100
 };
 supabaseClient
 .from("players")
