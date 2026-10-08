@@ -402,12 +402,12 @@ let {data: onlinePlayer, error} = await supabase
 .from("players")
 .select("*")
 .eq("uid", uid)
-.maybeSingle();
+.limit(1);
 
 
-if(onlinePlayer){
+if(onlinePlayer && onlinePlayer.length > 0){
 
-player = onlinePlayer;
+player = onlinePlayer[0];
 
 }
 
