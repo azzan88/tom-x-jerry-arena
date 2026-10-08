@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>🔥 TOM X JERRY ARENA 🔥</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -21,13 +18,11 @@ min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle,#ff0000,#000 65%);
+background:radial-gradient(circle,#ff0000,#000);
 color:white;
 }
 
-
 .container{
-
 width:95%;
 max-width:420px;
 background:#111;
@@ -35,93 +30,44 @@ padding:20px;
 border-radius:20px;
 box-shadow:0 0 25px red;
 text-align:center;
-
 }
 
-
-h1,h2{
-
+h1{
 color:#ffcc00;
-text-shadow:0 0 10px red;
-
 }
 
-
-button,input{
-
+input,button{
 width:100%;
 padding:13px;
 margin:8px 0;
-border-radius:10px;
 border:none;
-
+border-radius:10px;
 }
-
 
 input{
-
 background:#222;
 color:white;
-
 }
 
-
 button{
-
 background:linear-gradient(45deg,red,orange);
 color:white;
 font-weight:bold;
-cursor:pointer;
-
 }
-
-
-.card{
-
-background:#1b1b1b;
-padding:15px;
-border-radius:15px;
-margin-top:15px;
-box-shadow:0 0 10px red;
-
-}
-
 
 .hide{
-
 display:none;
-
-}
-
-
-.bottomNav{
-
-display:flex;
-gap:5px;
-margin-top:20px;
-
-}
-
-
-.bottomNav button{
-
-font-size:12px;
-padding:10px 5px;
-
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
 <div class="container">
 
-
-<!-- HOME -->
 
 <div id="home">
 
@@ -134,185 +80,78 @@ padding:10px 5px;
 🎮 PLAYER LOGIN
 </button>
 
+
 <button onclick="openAdmin()">
 👑 ADMIN LOGIN
 </button>
 
-
 </div>
 
-
-
-
-<!-- PLAYER LOGIN -->
 
 
 <div id="playerLogin" class="hide">
 
-
 <h1>🎮 PLAYER LOGIN</h1>
 
-
 <input id="pName" placeholder="Player Name">
-
 
 <input id="pUID" placeholder="Free Fire UID">
 
 
-<button onclick="playerLogin()">
+<button onclick="loginPlayer()">
 LOGIN
 </button>
 
-
 </div>
 
-
-
-
-
-<!-- ADMIN LOGIN -->
 
 
 <div id="adminLogin" class="hide">
 
-
 <h1>👑 ADMIN LOGIN</h1>
 
+<input id="user" placeholder="Username">
 
-<input id="aUser" placeholder="Username">
-
-
-<input id="aPass" placeholder="Password">
+<input id="pass" placeholder="Password">
 
 
-<button onclick="adminLogin()">
+<button onclick="loginAdmin()">
 LOGIN
 </button>
 
-
 </div>
 
-
-
-
-
-<!-- PLAYER PANEL -->
 
 
 <div id="playerPanel" class="hide">
 
-
 <h1>🔥 PLAYER PANEL 🔥</h1>
 
+<h2 id="showName"></h2>
 
-<div class="card">
-
-
-<h2 id="playerNameShow"></h2>
-
-
-<p id="uidShow"></p>
-
-<p id="coinsShow"></p>
-
-<p id="rubyShow"></p>
-
-<p id="statsShow"></p>
-
-<p id="rankShow"></p>
-
-
-</div>
-
-
-
-<div id="playerData"></div>
-
-
-<div class="bottomNav">
-
-
-<button>
-👤 Profile
-</button>
-
-
-<button>
-🏆 Tournament
-</button>
-
-
-<button>
-💎 Convert
-</button>
-
-
-<button>
-🛒 Buy
-</button>
-
-
-</div>
-
+<p id="showUID"></p>
 
 
 <button onclick="logout()">
 🚪 LOGOUT
 </button>
 
-
 </div>
 
-
-
-
-
-<!-- ADMIN PANEL -->
 
 
 <div id="adminPanel" class="hide">
 
+<h1>👑 ADMIN PANEL</h1>
 
-<h1>👑 ADMIN PANEL 👑</h1>
-
-
-<div class="card">
-
-
-<button>
-👥 VIEW PLAYERS
-</button>
-
-
-<button>
-🏆 CREATE TOURNAMENT
-</button>
-
-
-<button>
-⭐ STAR ROOM
-</button>
-
-
-<button>
-💰 ADD COINS
-</button>
-
-
-</div>
-
-
-
-<div id="adminData"></div>
+<p>Admin Login Successful</p>
 
 
 <button onclick="logout()">
 🚪 LOGOUT
 </button>
 
-
 </div>
-
 
 
 </div>
@@ -322,29 +161,17 @@ LOGIN
 <script>
 
 
-const supabaseUrl =
-"https://mowzllkumktnobpplulj.supabase.co";
-
-
-const supabaseKey =
-"YOUR_SUPABASE_KEY";
-
-
-const supabase =
-window.supabase.createClient(
-supabaseUrl,
-supabaseKey
-);
-
-
-
 function hideAll(){
 
-home.classList.add("hide");
-playerLogin.classList.add("hide");
-adminLogin.classList.add("hide");
-playerPanel.classList.add("hide");
-adminPanel.classList.add("hide");
+document.getElementById("home").classList.add("hide");
+
+document.getElementById("playerLogin").classList.add("hide");
+
+document.getElementById("adminLogin").classList.add("hide");
+
+document.getElementById("playerPanel").classList.add("hide");
+
+document.getElementById("adminPanel").classList.add("hide");
 
 }
 
@@ -352,7 +179,7 @@ adminPanel.classList.add("hide");
 
 function openPlayer(){
 
-document.getElementById("home").classList.add("hide");
+hideAll();
 
 document.getElementById("playerLogin").classList.remove("hide");
 
@@ -364,7 +191,62 @@ function openAdmin(){
 
 hideAll();
 
-adminLogin.classList.remove("hide");
+document.getElementById("adminLogin").classList.remove("hide");
+
+}
+
+
+
+function loginPlayer(){
+
+let name=document.getElementById("pName").value;
+
+let uid=document.getElementById("pUID").value;
+
+
+if(name=="" || uid==""){
+
+alert("Fill Details");
+
+return;
+
+}
+
+
+hideAll();
+
+document.getElementById("playerPanel").classList.remove("hide");
+
+
+document.getElementById("showName").innerHTML="👤 "+name;
+
+document.getElementById("showUID").innerHTML="UID: "+uid;
+
+
+}
+
+
+
+function loginAdmin(){
+
+let u=document.getElementById("user").value;
+
+let p=document.getElementById("pass").value;
+
+
+if(u=="admin" && p=="12345"){
+
+hideAll();
+
+document.getElementById("adminPanel").classList.remove("hide");
+
+}
+
+else{
+
+alert("Wrong Login");
+
+}
 
 }
 
@@ -375,7 +257,6 @@ function logout(){
 location.reload();
 
 }
-
 
 
 </script>
