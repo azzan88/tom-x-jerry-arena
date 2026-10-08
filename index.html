@@ -365,11 +365,11 @@ document.getElementById("adminPanel").style.display="none";
 
 function openPlayer(){
 
-alert("OPEN PLAYER");
+alert("OPEN PLAYER BUTTON OK");
 
-document.getElementById("playerLogin").classList.remove("hide");
+document.getElementById("home").style.display="none";
 
-document.getElementById("home").classList.add("hide");
+document.getElementById("playerLogin").style.display="block";
 
 }
 
@@ -377,7 +377,7 @@ document.getElementById("home").classList.add("hide");
 
 function openAdmin(){
 
-hideAll();
+document.getElementById("home").style.display="none";
 
 document.getElementById("adminLogin").style.display="block";
 
