@@ -501,33 +501,6 @@ alert("Coins Added Online 💰");
 
 });
 
-
-
-let player =
-JSON.parse(localStorage.getItem("player"));
-
-
-if(player && player.uid==uid){
-
-player.coins += amount;
-
-
-localStorage.setItem(
-"player",
-JSON.stringify(player)
-);
-
-
-alert("Coins Added 💰");
-
-}
-
-else{
-
-alert("Player Not Found");
-
-}
-
 }
 function createTournamentBox(){
 
