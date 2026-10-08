@@ -287,7 +287,7 @@ let player={
 name:name,
 uid:uid,
 password:password,
-coins:100
+coins: onlinePlayer ? onlinePlayer.coins : 100
 };
 supabaseClient
 .from("players")
@@ -475,6 +475,30 @@ ADD COINS
 function addCoins(){
 
 let uid=document.getElementById("coinUID").value;
+  supabaseClient
+.from("players")
+.select("*")
+.eq("uid",uid)
+.single()
+.then(({data,error})=>{
+
+if(error){
+alert("Player Not Found");
+return;
+}
+
+let newCoins = data.coins + amount;
+
+
+supabaseClient
+.from("players")
+.update({coins:newCoins})
+.eq("uid",uid)
+.then(()=>{
+alert("Coins Added Online 💰");
+});
+
+});
 
 let amount=Number(document.getElementById("coinAmount").value);
 
