@@ -359,33 +359,35 @@ alert("Wrong Login");
 }
 
 }
-function viewPlayers(){
+async function viewPlayers(){
 
-let players =
-JSON.parse(localStorage.getItem("players")) || [];
+let box=document.getElementById("playerData");
 
-let data="<h2>👥 PLAYERS</h2>";
+box.innerHTML="Loading players...";
 
-players.forEach(p=>{
+const {data,error}=await supabase
+.from("players")
+.select("*");
 
-data+=`
+if(error){
+box.innerHTML="Error loading players";
+console.log(error);
+return;
+}
 
-<div>
+box.innerHTML="";
 
-<p>👤 ${p.name}</p>
+data.forEach(p=>{
 
+box.innerHTML += `
+<div class="card">
+<h3>👤 ${p.name}</h3>
 <p>UID: ${p.uid}</p>
-
-<p>💰 Coins: ${p.coins}</p>
-
+<p>Coins: ${p.coins}</p>
 </div>
-
 `;
 
 });
-
-
-document.getElementById("adminData").innerHTML=data;
 
 }
 
