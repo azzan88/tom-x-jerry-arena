@@ -131,6 +131,8 @@ LOGIN
 
 <p id="showUID"></p>
 
+<p id="showCoins"></p>
+
 
 <button onclick="logout()">
 🚪 LOGOUT
@@ -146,13 +148,17 @@ LOGIN
 
 <p>Admin Login Successful</p>
 
+<button onclick="viewPlayers()">
+👥 VIEW PLAYERS
+</button>
+
+<div id="adminData"></div>
 
 <button onclick="logout()">
 🚪 LOGOUT
 </button>
 
 </div>
-
 
 </div>
 
@@ -213,14 +219,43 @@ return;
 }
 
 
+let player={
+name:name,
+uid:uid,
+coins:100
+};
+
+
+localStorage.setItem(
+"player",
+JSON.stringify(player)
+);
+let players =
+JSON.parse(localStorage.getItem("players")) || [];
+
+players.push(player);
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
 hideAll();
 
 document.getElementById("playerPanel").classList.remove("hide");
 
 
-document.getElementById("showName").innerHTML="👤 "+name;
+document.getElementById("showName").innerHTML=
+"👤 "+player.name;
 
-document.getElementById("showUID").innerHTML="UID: "+uid;
+
+document.getElementById("showUID").innerHTML=
+"UID: "+player.uid;
+
+
+document.getElementById("showCoins").innerHTML=
+"💰 Coins: "+player.coins;
 
 
 }
@@ -249,7 +284,35 @@ alert("Wrong Login");
 }
 
 }
+function viewPlayers(){
 
+let players =
+JSON.parse(localStorage.getItem("players")) || [];
+
+let data="<h2>👥 PLAYERS</h2>";
+
+players.forEach(p=>{
+
+data+=`
+
+<div>
+
+<p>👤 ${p.name}</p>
+
+<p>UID: ${p.uid}</p>
+
+<p>💰 Coins: ${p.coins}</p>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("adminData").innerHTML=data;
+
+}
 
 
 function logout(){
