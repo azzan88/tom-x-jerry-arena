@@ -134,7 +134,6 @@ padding:10px 5px;
 🎮 PLAYER LOGIN
 </button>
 
-
 <button onclick="openAdmin()">
 👑 ADMIN LOGIN
 </button>
@@ -353,11 +352,9 @@ adminPanel.classList.add("hide");
 
 function openPlayer(){
 
-alert("OPEN PLAYER FUNCTION OK");
+document.getElementById("home").classList.add("hide");
 
-document.getElementById("home").style.display="none";
-
-document.getElementById("playerLogin").style.display="block";
+document.getElementById("playerLogin").classList.remove("hide");
 
 }
 
