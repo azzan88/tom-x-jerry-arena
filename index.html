@@ -132,12 +132,15 @@ LOGIN
 <p id="showUID"></p>
 
 <p id="showCoins"></p>
-
+<p id="showStats"></p>
 <button onclick="showTournament()">
 🏆 TOURNAMENT
 </button>
   <button onclick="viewRooms()">
 ⭐ STAR ROOM
+  </button>
+  <button onclick="buyCoinsBox()">
+💰 BUY COINS
   </button>
 <button onclick="joinTournament()">
 🎮 JOIN TOURNAMENT
@@ -175,6 +178,9 @@ LOGIN
   </button>
   <button onclick="viewWinners()">
 🏆 VIEW WINNERS
+  </button>
+  <button onclick="viewCoinRequests()">
+💰 BUY COIN REQUESTS
   </button>
   <button onclick="createRoomBox()">
 ⭐ CREATE STAR ROOM
@@ -254,7 +260,9 @@ return;
 let player={
 name:name,
 uid:uid,
-coins:100
+coins:100,
+matches:0,
+wins:0
 };
 
 
@@ -288,7 +296,8 @@ document.getElementById("showUID").innerHTML=
 
 document.getElementById("showCoins").innerHTML=
 "💰 Coins: "+player.coins;
-
+document.getElementById("showStats").innerHTML=
+"🎮 Matches: "+(player.matches||0)+" | 🏆 Wins: "+(player.wins||0);
 
 }
 
@@ -434,7 +443,10 @@ fee:Number(document.getElementById("tFee").value),
 
 prize:document.getElementById("tPrize").value,
 
-slots:Number(document.getElementById("tSlots").value)
+slots:Number(document.getElementById("tSlots").value),
+
+status:"Upcoming",
+joined:0
 
 };
 
@@ -466,7 +478,11 @@ document.getElementById("adminData").innerHTML = `
 <p>💰 Fee: ${t.fee}</p>
 <p>🎁 Prize: ${t.prize}</p>
 <p>👥 Slots: ${t.slots}</p>
+<p>📌 Status: ${t.status}</p>
 
+<button onclick="changeTournamentStatus()">
+🔄 CHANGE STATUS
+</button>
 <button onclick="deleteTournament()">
 ❌ DELETE TOURNAMENT
 </button>
@@ -483,6 +499,38 @@ localStorage.removeItem("tournament");
 alert("Tournament Deleted");
 
 }
+  function changeTournamentStatus(){
+
+let t =
+JSON.parse(localStorage.getItem("tournament"));
+
+
+if(t.status=="Upcoming"){
+
+t.status="Live";
+
+}
+else if(t.status=="Live"){
+
+t.status="Completed";
+
+}
+else{
+
+t.status="Upcoming";
+
+}
+
+
+localStorage.setItem(
+"tournament",
+JSON.stringify(t)
+);
+
+
+alert("Status Updated 🔄");
+
+  }
   function joinTournament(){
 
 let player =
@@ -493,20 +541,61 @@ JSON.parse(localStorage.getItem("tournament"));
 
 
 if(!player){
+
 alert("Login Player First");
 return;
+
 }
 
 
 if(!t){
+
 alert("No Tournament Available");
 return;
+
+}
+
+
+if(t.status=="Completed"){
+
+alert("Tournament Finished");
+
+return;
+
+}
+
+
+let joined =
+JSON.parse(localStorage.getItem("joined")) || [];
+
+
+let already = joined.find(
+p=>p.uid==player.uid && p.tournament==t.name
+);
+
+
+if(already){
+
+alert("Already Joined");
+
+return;
+
+}
+
+
+if(joined.length >= t.slots){
+
+alert("Slots Full");
+
+return;
+
 }
 
 
 if(player.coins < t.fee){
 
 alert("Not Enough Coins");
+
 return;
 
 }
@@ -519,10 +608,6 @@ localStorage.setItem(
 "player",
 JSON.stringify(player)
 );
-
-
-let joined =
-JSON.parse(localStorage.getItem("joined")) || [];
 
 
 joined.push({
@@ -540,9 +625,59 @@ JSON.stringify(joined)
 );
 
 
+t.joined = joined.length;
+
+
+localStorage.setItem(
+"tournament",
+JSON.stringify(t)
+);
+
+
 alert("Tournament Joined 🎮");
 
   }
+  function showTournament(){
+
+let t =
+JSON.parse(localStorage.getItem("tournament"));
+
+
+let data="";
+
+
+if(!t){
+
+data="<h3>No Tournament Available</h3>";
+
+}
+else{
+
+data=`
+
+<h2>🏆 ${t.name}</h2>
+
+<p>💰 Entry Fee: ${t.fee}</p>
+
+<p>🎁 Prize: ${t.prize}</p>
+
+<p>👥 Slots: ${t.joined || 0}/${t.slots}</p>
+
+<p>📌 Status: ${t.status}</p>
+
+<button onclick="joinTournament()">
+🎮 JOIN NOW
+</button>
+
+`;
+
+}
+
+
+document.getElementById("tournamentData").innerHTML=data;
+
+  }
+  
   function viewJoinedPlayers(){
 
 let joined =
@@ -619,7 +754,11 @@ players.forEach(p=>{
 if(p.uid==uid){
 
 p.coins += prize;
-found=true;
+
+p.wins = (p.wins || 0) + 1;
+
+p.matches = (p.matches || 0) + 1;
+
 
 }
 
@@ -639,6 +778,11 @@ JSON.parse(localStorage.getItem("player"));
 if(player && player.uid==uid){
 
 player.coins += prize;
+
+player.wins = (player.wins || 0) + 1;
+
+player.matches = (player.matches || 0) + 1;
+
 
 localStorage.setItem(
 "player",
@@ -811,6 +955,182 @@ data+=`
 document.getElementById("tournamentData").innerHTML=data;
 
   }
+  function buyCoinsBox(){
+
+document.getElementById("tournamentData").innerHTML=`
+
+<h2>💰 BUY COINS</h2>
+
+<p>Payment karke Transaction ID bhejo</p>
+
+<input id="buyAmount" placeholder="Coins Amount">
+
+<input id="transactionID" placeholder="Transaction ID">
+
+
+<button onclick="sendCoinRequest()">
+SEND REQUEST
+</button>
+
+`;
+
+}
+
+
+
+function sendCoinRequest(){
+
+let player =
+JSON.parse(localStorage.getItem("player"));
+
+
+let requests =
+JSON.parse(localStorage.getItem("coinRequests")) || [];
+
+
+let req={
+
+name:player.name,
+
+uid:player.uid,
+
+amount:Number(document.getElementById("buyAmount").value),
+
+transaction:document.getElementById("transactionID").value,
+
+status:"Pending"
+
+};
+
+
+requests.push(req);
+
+
+localStorage.setItem(
+"coinRequests",
+JSON.stringify(requests)
+);
+
+
+alert("Request Sent 💰");
+
+}
+  function viewCoinRequests(){
+
+let requests =
+JSON.parse(localStorage.getItem("coinRequests")) || [];
+
+let data="<h2>💰 COIN REQUESTS</h2>";
+
+
+if(requests.length==0){
+
+data+="<p>No Requests</p>";
+
+}
+
+
+requests.forEach((r,i)=>{
+
+data+=`
+
+<div>
+
+<p>👤 ${r.name}</p>
+<p>UID: ${r.uid}</p>
+<p>💰 Amount: ${r.amount}</p>
+<p>🧾 ID: ${r.transaction}</p>
+<p>Status: ${r.status}</p>
+
+
+<button onclick="approveRequest(${i})">
+✅ APPROVE
+</button>
+
+
+<button onclick="rejectRequest(${i})">
+❌ REJECT
+</button>
+
+
+</div>
+
+<hr>
+
+`;
+
+});
+
+
+document.getElementById("adminData").innerHTML=data;
+
+}
+
+
+
+function approveRequest(index){
+
+let requests =
+JSON.parse(localStorage.getItem("coinRequests"));
+
+
+let r=requests[index];
+
+
+let players =
+JSON.parse(localStorage.getItem("players")) || [];
+
+
+players.forEach(p=>{
+
+if(p.uid==r.uid){
+
+p.coins += r.amount;
+
+}
+
+});
+
+
+localStorage.setItem(
+"players",
+JSON.stringify(players)
+);
+
+
+requests[index].status="Approved";
+
+
+localStorage.setItem(
+"coinRequests",
+JSON.stringify(requests)
+);
+
+
+alert("Coins Added 💰");
+
+}
+
+
+
+function rejectRequest(index){
+
+let requests =
+JSON.parse(localStorage.getItem("coinRequests"));
+
+
+requests[index].status="Rejected";
+
+
+localStorage.setItem(
+"coinRequests",
+JSON.stringify(requests)
+);
+
+
+alert("Request Rejected");
+
+}
 function logout(){
 
 location.reload();
