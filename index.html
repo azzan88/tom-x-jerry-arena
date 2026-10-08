@@ -474,31 +474,54 @@ ADD COINS
 
 function addCoins(){
 
-let uid=document.getElementById("coinUID").value;
-  alert("Searching UID: "+uid);
+let uid=document.getElementById("coinUID").value.trim();
+
 let amount=Number(document.getElementById("coinAmount").value);
-  supabaseClient
+
+alert("Searching UID: "+uid);
+
+supabaseClient
 .from("players")
 .select("*")
 .eq("uid",uid)
-.single()
 .then(({data,error})=>{
 
-if(error){
+console.log(data);
+console.log(error);
+
+if(error || data.length==0){
+
 alert("Player Not Found");
+
 return;
+
 }
 
-let newCoins = data.coins + amount;
+
+let player=data[0];
+
+let newCoins = Number(player.coins) + amount;
 
 
 supabaseClient
 .from("players")
 .update({coins:newCoins})
 .eq("uid",uid)
-.then(()=>{
+.then(({error})=>{
+
+if(error){
+
+console.log(error);
+alert("Update Error");
+
+return;
+
+}
+
 alert("Coins Added Online 💰");
+
 });
+
 
 });
 
