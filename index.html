@@ -365,9 +365,11 @@ document.getElementById("adminPanel").style.display="none";
 
 function openPlayer(){
 
-document.getElementById("home").style.display="none";
+alert("OPEN PLAYER");
 
-document.getElementById("playerLogin").style.display="block";
+document.getElementById("playerLogin").classList.remove("hide");
+
+document.getElementById("home").classList.add("hide");
 
 }
 
