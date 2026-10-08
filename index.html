@@ -141,7 +141,7 @@ margin:0;
 
 <p>Free Fire Tournament Platform</p>
 
-<button onclick="alert('CLICK TEST')">
+<button onclick="openPlayer()">
 🎮 PLAYER LOGIN
 </button>
 
@@ -365,15 +365,9 @@ document.getElementById("adminPanel").style.display="none";
 
 function openPlayer(){
 
-alert("openPlayer chal raha hai");
-
-hideAll();
-
-alert("hideAll ke baad");
+document.getElementById("home").style.display="none";
 
 document.getElementById("playerLogin").style.display="block";
-
-alert("playerLogin show ho gaya");
 
 }
 
