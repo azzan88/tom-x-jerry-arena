@@ -267,7 +267,7 @@ document.getElementById("adminLogin").classList.remove("hide");
 
 
 
-function loginPlayer(){
+async function loginPlayer(){
 
 let name=document.getElementById("pName").value;
 
@@ -305,6 +305,24 @@ localStorage.setItem(
 "player",
 JSON.stringify(player)
 );
+  let {data:onlinePlayer,error} = await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",uid)
+.single();
+
+
+  if(onlinePlayer){
+
+if(onlinePlayer.password != password){
+
+alert("Wrong Password ❌");
+return;
+
+}
+
+  }
+  
 let players =
 JSON.parse(localStorage.getItem("players")) || [];
   
