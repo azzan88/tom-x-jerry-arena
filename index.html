@@ -132,7 +132,11 @@ LOGIN
 <p id="showUID"></p>
 
 <p id="showCoins"></p>
+  
 <p id="showStats"></p>
+  
+  <p id="showRank"></p>
+  <p id="showRate"></p>
 <button onclick="showTournament()">
 🏆 TOURNAMENT
 </button>
@@ -298,7 +302,37 @@ document.getElementById("showCoins").innerHTML=
 "💰 Coins: "+player.coins;
 document.getElementById("showStats").innerHTML=
 "🎮 Matches: "+(player.matches||0)+" | 🏆 Wins: "+(player.wins||0);
+let rank="🥉 Bronze";
 
+if((player.wins||0)>=3){
+rank="🥈 Silver";
+}
+
+if((player.wins||0)>=6){
+rank="🥇 Gold";
+}
+
+if((player.wins||0)>=10){
+rank="💎 Diamond";
+}
+
+
+document.getElementById("showRank").innerHTML=
+"🏅 Rank: "+rank;
+let matches = player.matches || 0;
+let wins = player.wins || 0;
+
+let rate = 0;
+
+if(matches > 0){
+
+rate = Math.floor((wins / matches) * 100);
+
+}
+
+
+document.getElementById("showRate").innerHTML =
+"📊 Win Rate: "+rate+"%";
 }
 
 
@@ -1133,7 +1167,10 @@ alert("Request Rejected");
 }
 function logout(){
 
-location.reload();
+document.getElementById("playerPanel").classList.add("hide");
+document.getElementById("adminPanel").classList.add("hide");
+
+document.getElementById("home").classList.remove("hide");
 
 }
 
