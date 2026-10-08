@@ -289,7 +289,17 @@ coins:100,
 matches:0,
 wins:0
 };
-
+supabaseClient
+.from("players")
+.insert([player])
+.then(({data,error})=>{
+if(error){
+console.log(error);
+}
+else{
+console.log("Player Saved Online");
+}
+});
 
 localStorage.setItem(
 "player",
