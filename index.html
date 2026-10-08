@@ -475,6 +475,7 @@ ADD COINS
 function addCoins(){
 
 let uid=document.getElementById("coinUID").value;
+  alert("Searching UID: "+uid);
 let amount=Number(document.getElementById("coinAmount").value);
   supabaseClient
 .from("players")
