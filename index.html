@@ -104,7 +104,8 @@ alert("JS RUNNING");
 <input id="pName" placeholder="Player Name">
 
 <input id="pUID" placeholder="Free Fire UID">
-
+  
+<input id="pPassword" placeholder="Create Password">
 
 <button onclick="loginPlayer()">
 LOGIN
@@ -271,10 +272,10 @@ function loginPlayer(){
 let name=document.getElementById("pName").value;
 
 let uid=document.getElementById("pUID").value;
+  
+let password=document.getElementById("pPassword").value;
 
-
-if(name=="" || uid==""){
-
+if(name=="" || uid=="" || password==""){
 alert("Fill Details");
 
 return;
@@ -285,7 +286,8 @@ return;
 let player={
 name:name,
 uid:uid,
-coins:100,
+password:password,
+coins:100
 };
 supabaseClient
 .from("players")
@@ -305,7 +307,19 @@ JSON.stringify(player)
 );
 let players =
 JSON.parse(localStorage.getItem("players")) || [];
+  
+let oldPlayer = players.find(p=>p.uid==uid);
 
+if(oldPlayer){
+
+if(oldPlayer.password != password){
+
+alert("Wrong Password ❌");
+return;
+
+}
+
+}
 players.push(player);
 
 localStorage.setItem(
