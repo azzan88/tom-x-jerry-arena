@@ -299,19 +299,52 @@ JSON.stringify(player)
 .from("players")
 .select("*")
 .eq("uid",uid)
-.single();
+.limit(1);
+
+if(error){
+console.log(error);
+}
+
+if(!onlinePlayer || onlinePlayer.length == 0){
+
+let {data:newPlayer,error:insertError} = await supabaseClient
+.from("players")
+.insert([
+{
+name:name,
+uid:uid,
+password:password,
+coins:100
+}
+])
+.select();
+
+if(insertError){
+console.log(insertError);
+alert("Online Save Error");
+return;
+}
+
+console.log("Online Player Added",newPlayer);
+
+}
 
 
-  if(onlinePlayer){
+if(onlinePlayer && onlinePlayer.length > 0){
 
-if(onlinePlayer.password != password){
+let oldOnline = onlinePlayer[0];
+
+if(oldOnline.password != password){
 
 alert("Wrong Password ❌");
 return;
 
 }
 
-  }
+}
+
+
+  
   
 let players =
 JSON.parse(localStorage.getItem("players")) || [];
@@ -501,10 +534,9 @@ document.getElementById("adminData").innerHTML = `
 </button>
 
 `;
-
 }
 
-  function addCoinsBox(){
+function addCoinsBox(){
 
 document.getElementById("adminData").innerHTML=`
 
@@ -519,55 +551,6 @@ ADD COINS
 </button>
 
 `;
-
-}
-async function addCoins(){
-
-let uid=document.getElementById("coinUID").value.trim();
-let amount=Number(document.getElementById("coinAmount").value);
-
-let {data,error}=await supabaseClient
-.from("players")
-.select("*")
-.eq("uid",uid)
-.limit(1);
-
-
-if(error){
-console.log(error);
-alert("Database Error");
-return;
-}
-
-
-if(!data || data.length==0){
-alert("Player Not Found");
-return;
-}
-
-
-let player=data[0];
-
-
-let newCoins=(player.coins || 0)+amount;
-
-
-let {error:updateError}=await supabaseClient
-.from("players")
-.update({
-coins:newCoins
-})
-.eq("id",player.id);
-
-
-if(updateError){
-console.log(updateError);
-alert("Update Failed");
-return;
-}
-
-
-alert("Coins Added 💰");
 
 }
 
