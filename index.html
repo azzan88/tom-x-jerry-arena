@@ -1004,10 +1004,26 @@ alert("Winner Updated 🏆");
 
 }
   
-function viewWinners(){
+async function viewWinners(){
 
-let winners =
-JSON.parse(localStorage.getItem("winners")) || [];
+let dataBox = document.getElementById("adminData");
+
+dataBox.innerHTML = "Loading Winners...";
+
+
+let {data:winners,error} = await supabaseClient
+.from("winners")
+.select("*");
+
+
+if(error){
+
+dataBox.innerHTML="Error Loading Winners";
+console.log(error);
+return;
+
+}
+
 
 let data="<h2>🏆 WINNERS</h2>";
 
@@ -1039,7 +1055,7 @@ data+=`
 });
 
 
-document.getElementById("adminData").innerHTML=data;
+dataBox.innerHTML=data;
 
 }
   function createRoomBox(){
