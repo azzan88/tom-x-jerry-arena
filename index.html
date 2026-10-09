@@ -989,7 +989,17 @@ localStorage.setItem(
 "winners",
 JSON.stringify(winners)
 );
-
+  
+await supabaseClient
+.from("winners")
+.insert([
+{
+name: player.name,
+uid: player.uid,
+prize: prize,
+date: new Date().toLocaleDateString()
+}
+]);
 alert("Winner Updated 🏆");
 
 }
