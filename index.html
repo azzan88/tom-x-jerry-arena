@@ -531,7 +531,33 @@ ADD COINS
 `;
 
 }
+async function addCoins(){
 
+let uid = document.getElementById("coinUID").value;
+
+let amount = Number(document.getElementById("coinAmount").value);
+
+if(uid=="" || amount<=0){
+alert("Fill Details");
+return;
+}
+
+let {data,error}=await supabaseClient
+.from("players")
+.update({
+coins: supabaseClient.raw("coins + "+amount)
+})
+.eq("uid",uid);
+
+if(error){
+console.log(error);
+alert("Error Adding Coins");
+return;
+}
+
+alert("Coins Added 💰");
+
+}
 
 
 
