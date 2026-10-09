@@ -451,113 +451,6 @@ box.innerHTML += `
 });
 
 }
-
-  function addCoinsBox(){
-
-document.getElementById("adminData").innerHTML=`
-
-<h2>💰 ADD COINS</h2>
-
-<input id="coinUID" placeholder="Player UID">
-
-<input id="coinAmount" placeholder="Coins Amount">
-
-<button onclick="addCoins()">
-ADD COINS
-</button>
-
-`;
-
-}
-
-
-
-async function addCoins(){
-
-let uid=document.getElementById("coinUID").value.trim();
-
-let amount=Number(document.getElementById("coinAmount").value);
-
-if(uid=="" || !amount){
-alert("Fill Details");
-return;
-}
-
-
-let {data,error}=await supabaseClient
-.from("players")
-.select("*")
-.eq("uid",uid);
-
-
-if(updateError){
-
-alert(updateError.message);
-console.log(updateError);
-
-return;
-
-}
-
-
-if(data.length==0){
-alert("Player Not Found");
-return;
-}
-
-
-let player=data[0];
-
-let newCoins=Number(player.coins || 0)+amount;
-
-
-let {error:updateError}=await supabaseClient
-.from("players")
-.update({
-coins:newCoins
-})
-.eq("uid",uid);
-
-
-if(updateError){
-
-console.log(updateError);
-alert("Coins Update Failed");
-
-return;
-
-}
-
-
-alert("Coins Added Online 💰");
-
-}
-
-function createTournamentBox(){
-
-document.getElementById("adminData").innerHTML=`
-
-<h2>🏆 CREATE TOURNAMENT</h2>
-
-<input id="tName" placeholder="Tournament Name">
-
-<input id="tFee" placeholder="Entry Fee">
-
-<input id="tPrize" placeholder="Prize">
-
-<input id="tSlots" placeholder="Total Slots">
-
-
-<button onclick="createTournament()">
-CREATE
-</button>
-
-`;
-
-}
-
-
-
 function createTournament(){
 
 let tournament={
@@ -571,6 +464,7 @@ prize:document.getElementById("tPrize").value,
 slots:Number(document.getElementById("tSlots").value),
 
 status:"Upcoming",
+
 joined:0
 
 };
@@ -585,7 +479,10 @@ JSON.stringify(tournament)
 alert("Tournament Created 🏆");
 
 }
-  function manageTournament(){
+
+
+
+function manageTournament(){
 
 let t = JSON.parse(localStorage.getItem("tournament"));
 
@@ -608,6 +505,7 @@ document.getElementById("adminData").innerHTML = `
 <button onclick="changeTournamentStatus()">
 🔄 CHANGE STATUS
 </button>
+
 <button onclick="deleteTournament()">
 ❌ DELETE TOURNAMENT
 </button>
@@ -615,6 +513,31 @@ document.getElementById("adminData").innerHTML = `
 `;
 
 }
+}
+
+  function addCoinsBox(){
+
+document.getElementById("adminData").innerHTML=`
+
+<h2>💰 ADD COINS</h2>
+
+<input id="coinUID" placeholder="Player UID">
+
+<input id="coinAmount" placeholder="Coins Amount">
+
+<button onclick="addCoins()">
+ADD COINS
+</button>
+
+`;
+
+}
+
+
+
+
+
+
 
 
 function deleteTournament(){
