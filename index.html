@@ -506,17 +506,17 @@ box.innerHTML += `
 });
 
 }
-function createTournament(){
+async function createTournament(){
 
-let tournament={
+let tournament = {
 
-name:document.getElementById("tName").value,
+name: document.getElementById("tName").value,
 
-fee:Number(document.getElementById("tFee").value),
+fee: Number(document.getElementById("tFee").value),
 
-prize:document.getElementById("tPrize").value,
+prize: document.getElementById("tPrize").value,
 
-slots:Number(document.getElementById("tSlots").value),
+slots: Number(document.getElementById("tSlots").value),
 
 status:"Upcoming",
 
@@ -525,15 +525,26 @@ joined:0
 };
 
 
-localStorage.setItem(
-"tournament",
-JSON.stringify(tournament)
-);
+let {error} = await supabaseClient
+.from("tournaments")
+.insert([
+tournament
+]);
+
+
+if(error){
+
+console.log(error);
+alert("Tournament Error");
+return;
+
+}
 
 
 alert("Tournament Created 🏆");
 
 }
+
 
 function createTournamentBox(){
 
@@ -562,7 +573,7 @@ function manageTournament(){
 let t = JSON.parse(localStorage.getItem("tournament"));
 
 if(!t){
-document.getElementById("adminData").innerHTML =
+document.getElementById("adminData").innerHTlML =
 "<h2>No Tournament Created</h2>";
 return;
 }
