@@ -1179,38 +1179,49 @@ SEND REQUEST
 
 
 
-function sendCoinRequest(){
+async function sendCoinRequest(){
 
-let player =
-JSON.parse(localStorage.getItem("player"));
+let player = JSON.parse(localStorage.getItem("player"));
+
+if(!player){
+alert("Login Player First");
+return;
+}
 
 
-let requests =
-JSON.parse(localStorage.getItem("coinRequests")) || [];
+let amount = Number(document.getElementById("buyAmount").value);
+
+let transaction = document.getElementById("transactionID").value;
 
 
-let req={
+if(amount<=0 || transaction==""){
 
-name:player.name,
+alert("Fill Details");
+return;
 
-uid:player.uid,
+}
 
-amount:Number(document.getElementById("buyAmount").value),
 
-transaction:document.getElementById("transactionID").value,
-
+let {error} = await supabaseClient
+.from("coin_requests")
+.insert([
+{
+name: player.name,
+uid: player.uid,
+amount: amount,
+transaction: transaction,
 status:"Pending"
-
-};
-
-
-requests.push(req);
+}
+]);
 
 
-localStorage.setItem(
-"coinRequests",
-JSON.stringify(requests)
-);
+if(error){
+
+console.log(error);
+alert("Request Error");
+return;
+
+}
 
 
 alert("Request Sent 💰");
