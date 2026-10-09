@@ -856,28 +856,49 @@ document.getElementById("tournamentData").innerHTML=data;
 
   }
 
-  function viewJoinedPlayers(){
+  async function viewJoinedPlayers(){
 
-let joined =
-JSON.parse(localStorage.getItem("joined")) || [];
+let box = document.getElementById("adminData");
 
-let data="<h2>👥 JOINED PLAYERS</h2>";
+box.innerHTML = "Loading joined players...";
 
-if(joined.length==0){
 
-data+="<p>No Players Joined</p>";
+let {data,error} = await supabaseClient
+.from("joined_players")
+.select("*");
+
+
+if(error){
+
+box.innerHTML = "Error loading joined players";
+console.log(error);
+return;
 
 }
 
-joined.forEach(p=>{
 
-data+=`
+let dataHTML = "<h2>👥 JOINED PLAYERS</h2>";
+
+
+if(data.length==0){
+
+dataHTML += "<p>No Players Joined</p>";
+
+}
+
+
+data.forEach(p=>{
+
+dataHTML += `
 
 <div>
+
 <p>👤 ${p.name}</p>
 <p>UID: ${p.uid}</p>
 <p>🏆 ${p.tournament}</p>
+
 <hr>
+
 </div>
 
 `;
@@ -885,7 +906,8 @@ data+=`
 });
 
 
-document.getElementById("adminData").innerHTML=data;
+box.innerHTML = dataHTML;
+
 
   }
 
