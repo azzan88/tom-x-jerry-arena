@@ -472,56 +472,64 @@ ADD COINS
 
 
 
-function addCoins(){
+async function addCoins(){
 
 let uid=document.getElementById("coinUID").value.trim();
 
 let amount=Number(document.getElementById("coinAmount").value);
 
-alert("Searching UID: "+uid);
+if(uid=="" || !amount){
+alert("Fill Details");
+return;
+}
 
-supabaseClient
+
+let {data,error}=await supabaseClient
 .from("players")
 .select("*")
-.eq("uid",uid)
-.then(({data,error})=>{
+.eq("uid",uid);
 
-console.log(data);
+
+if(error){
 console.log(error);
-
-if(error || data.length==0){
-
-alert("Player Not Found");
-
+alert("Database Error");
 return;
+}
 
+
+if(data.length==0){
+alert("Player Not Found");
+return;
 }
 
 
 let player=data[0];
 
-let newCoins = Number(player.coins) + amount;
+let newCoins=Number(player.coins || 0)+amount;
 
 
-supabaseClient
+let {error:updateError}=await supabaseClient
 .from("players")
-.update({coins:newCoins})
-.eq("uid",uid)
-.then(({data,error})=>{
+.update({
+coins:newCoins
+})
+.eq("uid",uid);
 
-console.log("UPDATE RESULT:",data);
-console.log("UPDATE ERROR:",error);
 
-if(error){
-alert("Update Error");
+if(updateError){
+
+console.log(updateError);
+alert("Coins Update Failed");
+
 return;
+
 }
+
 
 alert("Coins Added Online 💰");
 
-});
-
 }
+
 function createTournamentBox(){
 
 document.getElementById("adminData").innerHTML=`
