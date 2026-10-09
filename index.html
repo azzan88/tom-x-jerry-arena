@@ -382,6 +382,20 @@ document.getElementById("showUID").innerHTML=
 "UID: "+player.uid;
 
 
+let {data:latestPlayer}=await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",uid)
+.single();
+
+if(latestPlayer){
+player.coins = latestPlayer.coins;
+localStorage.setItem(
+"player",
+JSON.stringify(player)
+);
+}
+
 document.getElementById("showCoins").innerHTML=
 "💰 Coins: "+player.coins;
 document.getElementById("showStats").innerHTML=
