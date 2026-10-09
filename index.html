@@ -490,10 +490,13 @@ let {data,error}=await supabaseClient
 .eq("uid",uid);
 
 
-if(error){
-console.log(error);
-alert("Database Error");
+if(updateError){
+
+alert(updateError.message);
+console.log(updateError);
+
 return;
+
 }
 
 
