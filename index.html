@@ -943,6 +943,22 @@ matches:(player.matches||0)+1
 })
 .eq("uid",uid);
 
+let winners =
+JSON.parse(localStorage.getItem("winners")) || [];
+
+winners.push({
+
+name: player.name,
+uid: player.uid,
+prize: prize,
+date: new Date().toLocaleDateString()
+
+});
+
+localStorage.setItem(
+"winners",
+JSON.stringify(winners)
+);
 
 alert("Winner Updated 🏆");
 
