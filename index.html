@@ -793,7 +793,15 @@ localStorage.setItem(
 "joined",
 JSON.stringify(joined)
 );
-
+await supabaseClient
+.from("joined_players")
+.insert([
+{
+name: player.name,
+uid: player.uid,
+tournament: t.name
+}
+]);
 
 t.joined = joined.length;
 
