@@ -803,7 +803,27 @@ data="<h3>No Tournament Available</h3>";
 }
 else{
 
-dafunction viewJoinedPlayers(){
+
+
+  function matchResultBox(){
+
+document.getElementById("adminData").innerHTML=`
+
+<h2>🏆 MATCH RESULT</h2>
+
+<input id="winnerUID" placeholder="Winner UID">
+
+<input id="winPrize" placeholder="Prize Coins">
+
+<button onclick="giveWinner()">
+GIVE WIN
+</button>
+
+`;
+
+}
+
+function viewJoinedPlayers(){
 
 let joined =
 JSON.parse(localStorage.getItem("joined")) || [];
@@ -839,13 +859,11 @@ document.getElementById("adminData").innerHTML=data;
 
 }
 
-
-
 async function giveWinner(){
 
-let uid=document.getElementById("winnerUID").value;
+let uid = document.getElementById("winnerUID").value;
 
-let prize=Number(document.getElementById("winPrize").value);
+let prize = Number(document.getElementById("winPrize").value);
 
 
 if(uid=="" || prize<=0){
@@ -897,56 +915,7 @@ return;
 
 alert("🏆 Winner Reward Added Successfully");
 
-}ta=`
-
-<h2>🏆 ${t.name}</h2>
-
-<p>💰 Entry Fee: ${t.fee}</p>
-
-<p>🎁 Prize: ${t.prize}</p>
-
-<p>👥 Slots: ${t.joined || 0}/${t.slots}</p>
-
-<p>📌 Status: ${t.status}</p>
-
-<button onclick="joinTournament()">
-🎮 JOIN NOW
-</button>
-
-`;
-
 }
-
-
-document.getElementById("tournamentData").innerHTML=data;
-
-  }
-  
-  
-
-
-
-  function matchResultBox(){
-
-document.getElementById("adminData").innerHTML=`
-
-<h2>🏆 MATCH RESULT</h2>
-
-<input id="winnerUID" placeholder="Winner UID">
-
-<input id="winPrize" placeholder="Prize Coins">
-
-<button onclick="giveWinner()">
-GIVE WIN
-</button>
-
-`;
-
-}
-
-
-
-
 
 function viewWinners(){
 
