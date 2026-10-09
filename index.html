@@ -398,8 +398,26 @@ JSON.stringify(player)
 
 document.getElementById("showCoins").innerHTML=
 "💰 Coins: "+player.coins;
+let {data:onlineStats}=await supabaseClient
+.from("players")
+.select("matches,wins")
+.eq("uid",uid)
+.single();
+
+if(onlineStats){
+
+player.matches = onlineStats.matches || 0;
+player.wins = onlineStats.wins || 0;
+
+localStorage.setItem(
+"player",
+JSON.stringify(player)
+);
+
+}
+
 document.getElementById("showStats").innerHTML=
-"🎮 Matches: "+(player.matches||0)+" | 🏆 Wins: "+(player.wins||0);
+"🎮 Matches: "+player.matches+" | 🏆 Wins: "+player.wins;
 let rank="🥉 Bronze";
 
 if((player.wins||0)>=3){
