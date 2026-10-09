@@ -289,17 +289,7 @@ uid:uid,
 password:password,
 coins:100
 };
-supabaseClient
-.from("players")
-.insert([player])
-.then(({data,error})=>{
-if(error){
-console.log(error);
-}
-else{
-console.log("Player Saved Online");
-}
-});
+
 
 localStorage.setItem(
 "player",
