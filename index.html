@@ -839,6 +839,64 @@ if(joined.length==0){
 
 data+="<p>No Players Joined</p>";
 
+async function giveWinner(){
+
+let uid = document.getElementById("winnerUID").value;
+
+let prize = Number(document.getElementById("winPrize").value);
+
+
+if(uid=="" || prize<=0){
+
+alert("Fill Details");
+return;
+
+}
+
+
+// Online player data lo
+let {data:player,error}=await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",uid)
+.single();
+
+
+if(error || !player){
+
+alert("Player Not Found");
+console.log(error);
+return;
+
+}
+
+
+// Coins + Win + Match update
+let {error:updateError}=await supabaseClient
+.from("players")
+.update({
+
+coins: (player.coins || 0) + prize,
+
+wins: (player.wins || 0) + 1,
+
+matches: (player.matches || 0) + 1
+
+})
+.eq("uid",uid);
+
+
+if(updateError){
+
+alert("Update Error");
+console.log(updateError);
+return;
+
+}
+
+
+alert("🏆 Winner Reward Added Successfully");
+
 }
 
 joined.forEach(p=>{
@@ -858,66 +916,13 @@ data+=`
 `;
 
 });
-async function giveWinner(){
-
-let uid =
-document.getElementById("winnerUID").value;
-
-let prize =
-Number(document.getElementById("winPrize").value);
-
-
-if(uid=="" || prize<=0){
-
-alert("Fill Details");
-return;
-
-}
-
-
-// Player ka current data lo
-let {data:player,error}=await supabaseClient
-.from("players")
-.select("*")
-.eq("uid",uid)
-.single();
-
-
-if(error || !player){
-
-alert("Player Not Found");
-return;
-
-}
-
-
-// Online update
-let {error:updateError}=await supabaseClient
-.from("players")
-.update({
-coins: player.coins + prize,
-wins: (player.wins || 0) + 1,
-matches: (player.matches || 0) + 1
-})
-.eq("uid",uid);
-
-
-if(updateError){
-
-console.log(updateError);
-alert("Update Error");
-return;
-
-}
-
-
-alert("Winner Reward Added 🏆");
-
-}
 
 document.getElementById("adminData").innerHTML=data;
 
-  }
+}
+
+
+
   function matchResultBox(){
 
 document.getElementById("adminData").innerHTML=`
