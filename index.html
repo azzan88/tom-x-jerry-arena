@@ -554,7 +554,59 @@ ADD COINS
 
 }
 
+async function addCoins(){
 
+let uid=document.getElementById("coinUID").value;
+
+let amount=Number(document.getElementById("coinAmount").value);
+
+
+if(uid=="" || amount<=0){
+
+alert("Fill Details");
+return;
+
+}
+
+
+let {data:player,error}=await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",uid)
+.single();
+
+
+if(error){
+
+alert("Player Not Found");
+return;
+
+}
+
+
+let newCoins = player.coins + amount;
+
+
+let {error:updateError}=await supabaseClient
+.from("players")
+.update({
+coins:newCoins
+})
+.eq("uid",uid);
+
+
+if(updateError){
+
+alert("Update Error");
+console.log(updateError);
+return;
+
+}
+
+
+alert("Coins Added 💰");
+
+}
 
 
 
