@@ -507,21 +507,17 @@ supabaseClient
 .from("players")
 .update({coins:newCoins})
 .eq("uid",uid)
-.then(({error})=>{
+.then(({data,error})=>{
+
+console.log("UPDATE RESULT:",data);
+console.log("UPDATE ERROR:",error);
 
 if(error){
-
-console.log(error);
 alert("Update Error");
-
 return;
-
 }
 
 alert("Coins Added Online 💰");
-
-});
-
 
 });
 
