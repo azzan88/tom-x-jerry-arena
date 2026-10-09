@@ -535,7 +535,27 @@ alert("Tournament Created 🏆");
 
 }
 
+function createTournamentBox(){
 
+document.getElementById("adminData").innerHTML=`
+
+<h2>🏆 CREATE TOURNAMENT</h2>
+
+<input id="tName" placeholder="Tournament Name">
+
+<input id="tFee" placeholder="Entry Fee">
+
+<input id="tPrize" placeholder="Prize">
+
+<input id="tSlots" placeholder="Total Slots">
+
+<button onclick="createTournament()">
+CREATE
+</button>
+
+`;
+
+}
 
 function manageTournament(){
 
@@ -803,27 +823,32 @@ data="<h3>No Tournament Available</h3>";
 }
 else{
 
+data=`
 
+<h2>🏆 ${t.name}</h2>
 
-  function matchResultBox(){
+<p>💰 Entry Fee: ${t.fee}</p>
 
-document.getElementById("adminData").innerHTML=`
+<p>🎁 Prize: ${t.prize}</p>
 
-<h2>🏆 MATCH RESULT</h2>
+<p>👥 Slots: ${t.joined || 0}/${t.slots}</p>
 
-<input id="winnerUID" placeholder="Winner UID">
+<p>📌 Status: ${t.status}</p>
 
-<input id="winPrize" placeholder="Prize Coins">
-
-<button onclick="giveWinner()">
-GIVE WIN
+<button onclick="joinTournament()">
+🎮 JOIN NOW
 </button>
 
 `;
 
 }
 
-function viewJoinedPlayers(){
+
+document.getElementById("tournamentData").innerHTML=data;
+
+  }
+
+  function viewJoinedPlayers(){
 
 let joined =
 JSON.parse(localStorage.getItem("joined")) || [];
@@ -841,13 +866,10 @@ joined.forEach(p=>{
 data+=`
 
 <div>
-
 <p>👤 ${p.name}</p>
 <p>UID: ${p.uid}</p>
 <p>🏆 ${p.tournament}</p>
-
 <hr>
-
 </div>
 
 `;
@@ -857,13 +879,32 @@ data+=`
 
 document.getElementById("adminData").innerHTML=data;
 
+  }
+
+
+function matchResultBox(){
+
+document.getElementById("adminData").innerHTML=`
+
+<h2>🏆 MATCH RESULT</h2>
+
+<input id="winnerUID" placeholder="Winner UID">
+
+<input id="winPrize" placeholder="Prize Coins">
+
+<button onclick="giveWinner()">
+GIVE WIN
+</button>
+
+`;
+
 }
 
 async function giveWinner(){
 
-let uid = document.getElementById("winnerUID").value;
+let uid=document.getElementById("winnerUID").value;
 
-let prize = Number(document.getElementById("winPrize").value);
+let prize=Number(document.getElementById("winPrize").value);
 
 
 if(uid=="" || prize<=0){
@@ -884,39 +925,29 @@ let {data:player,error}=await supabaseClient
 if(error || !player){
 
 alert("Player Not Found");
-console.log(error);
 return;
 
 }
 
 
-let {error:updateError}=await supabaseClient
+await supabaseClient
 .from("players")
 .update({
 
-coins:(player.coins || 0)+prize,
+coins:(player.coins||0)+prize,
 
-wins:(player.wins || 0)+1,
+wins:(player.wins||0)+1,
 
-matches:(player.matches || 0)+1
+matches:(player.matches||0)+1
 
 })
 .eq("uid",uid);
 
 
-if(updateError){
-
-alert("Update Error");
-console.log(updateError);
-return;
+alert("Winner Updated 🏆");
 
 }
-
-
-alert("🏆 Winner Reward Added Successfully");
-
-}
-
+  
 function viewWinners(){
 
 let winners =
