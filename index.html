@@ -688,102 +688,89 @@ JSON.parse(localStorage.getItem("tournament"));
 
 if(t.status=="Upcoming"){
 
-t.status="Live";
 
-}
-else if(t.status=="Live"){
-
-t.status="Completed";
-
-}
-else{
-
-t.status="Upcoming";
-
-}
-
-
-localStorage.setItem(
-"tournament",
-JSON.stringify(t)
-);
-
-
-alert("Status Updated 🔄");
-
-  }
   async function joinTournament(){
 
-let player =
-JSON.parse(localStorage.getItem("player"));
-
-let t =
-JSON.parse(localStorage.getItem("tournament"));
-
+let player = JSON.parse(localStorage.getItem("player"));
 
 if(!player){
-
 alert("Login Player First");
 return;
-
 }
 
 
-if(!t){
+let {data:tournaments,error}=await supabaseClient
+.from("tournaments")
+.select("*")
+.order("id",{ascending:false})
+.limit(1);
 
+
+if(error || !tournaments.length){
 alert("No Tournament Available");
 return;
-
 }
+
+
+let t=tournaments[0];
 
 
 if(t.status=="Completed"){
-
 alert("Tournament Finished");
-
 return;
-
 }
 
 
-let joined =
-JSON.parse(localStorage.getItem("joined")) || [];
+let {data:check}=await supabaseClient
+.from("joined_players")
+.select("*")
+.eq("uid",player.uid)
+.eq("tournament",t.name);
 
 
-let already = joined.find(
-p=>p.uid==player.uid && p.tournament==t.name
-);
-
-
-if(already){
-
+if(check && check.length>0){
 alert("Already Joined");
-
 return;
-
-}
-
-
-if(joined.length >= t.slots){
-
-alert("Slots Full");
-
-return;
-
 }
 
 
 if(player.coins < t.fee){
-
 alert("Not Enough Coins");
-
 return;
-
 }
 
 
-player.coins -= t.fee;
+let newCoins = player.coins - t.fee;
 
+
+await supabaseClient
+.from("players")
+.update({
+coins:newCoins
+})
+.eq("uid",player.uid);
+
+
+await supabaseClient
+.from("joined_players")
+.insert([
+{
+name:player.name,
+uid:player.uid,
+tournament:t.name
+}
+]);
+
+
+await supabaseClient
+.from("tournaments")
+.update({
+joined:(t.joined || 0)+1
+})
+.eq("id",t.id);
+
+
+player.coins=newCoins;
 
 localStorage.setItem(
 "player",
@@ -791,56 +778,36 @@ JSON.stringify(player)
 );
 
 
-joined.push({
-
-name:player.name,
-uid:player.uid,
-tournament:t.name
-
-});
-
-
-localStorage.setItem(
-"joined",
-JSON.stringify(joined)
-);
-await supabaseClient
-.from("joined_players")
-.insert([
-{
-name: player.name,
-uid: player.uid,
-tournament: t.name
-}
-]);
-
-t.joined = joined.length;
-
-
-localStorage.setItem(
-"tournament",
-JSON.stringify(t)
-);
-
-
 alert("Tournament Joined 🎮");
 
   }
-  function showTournament(){
+  
+async function showTournament(){
 
-let t =
-JSON.parse(localStorage.getItem("tournament"));
+let {data:tournaments,error}=await supabaseClient
+.from("tournaments")
+.select("*")
+.order("id",{ascending:false})
+.limit(1);
 
 
 let data="";
 
 
-if(!t){
+if(error){
+data="<h3>Error Loading Tournament</h3>";
+console.log(error);
+}
+
+else if(!tournaments || tournaments.length==0){
 
 data="<h3>No Tournament Available</h3>";
 
 }
+
 else{
+
+let t=tournaments[0];
 
 data=`
 
@@ -865,7 +832,7 @@ data=`
 
 document.getElementById("tournamentData").innerHTML=data;
 
-  }
+}
 
   async function viewJoinedPlayers(){
 
@@ -1111,7 +1078,52 @@ status:"Active"
 
 if(room.name=="" || room.room_id=="" || room.pass==""){
 
-alert("Fill Details");
+async function viewRooms(){
+
+let {data:rooms,error}=await supabaseClient
+.from("rooms")
+.select("*")
+.eq("status","Active");
+
+
+let data="<h2>⭐ STAR ROOMS</h2>";
+
+if(error){
+data+="<p>Error Loading Rooms</p>";
+console.log(error);
+return;
+}
+
+
+if(rooms.length==0){
+data+="<p>No Rooms Available</p>";
+}
+
+
+rooms.forEach(r=>{
+
+data+=`
+
+<div>
+
+<p>⭐ ${r.name}</p>
+
+<p>🆔 Room ID: ${r.room_id}</p>
+
+<p>🔑 Password: ${r.pass}</p>
+
+</div>
+
+<hr>
+
+`;
+
+});
+
+
+document.getElementById("tournamentData").innerHTML=data;
+
+}lert("Fill Details");
 return;
 
 }
@@ -1135,62 +1147,7 @@ return;
 
 alert("Star Room Created ⭐");
   }
-  async function viewRooms(){
-
-let box = document.getElementById("tournamentData");
-
-box.innerHTML = "Loading Star Rooms...";
-
-
-let {data:rooms,error} = await supabaseClient
-.from("rooms")
-.select("*")
-.eq("status","Active");
-
-
-if(error){
-
-box.innerHTML = "Error Loading Rooms";
-console.log(error);
-return;
-
-}
-
-
-let data = "<h2>⭐ STAR ROOMS</h2>";
-
-
-if(rooms.length==0){
-
-data += "<p>No Rooms Available</p>";
-
-}
-
-
-rooms.forEach(r=>{
-
-data += `
-
-<div>
-
-<p>⭐ ${r.name}</p>
-
-<p>🆔 Room ID: ${r.room_id}</p>
-
-<p>🔑 Password: ${r.pass}</p>
-
-</div>
-
-<hr>
-
-`;
-
-});
-
-
-box.innerHTML=data;
-
-  }
+  
  
 async function buyCoinsBox(){
 
