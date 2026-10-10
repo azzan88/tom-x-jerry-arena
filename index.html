@@ -1266,7 +1266,66 @@ SEND REQUEST
 `;
 
 }
+async function showRewards(){
 
+let player = JSON.parse(localStorage.getItem("player"));
+
+if(!player){
+alert("Login Player First");
+return;
+}
+
+
+let {data:history,error}=await supabaseClient
+.from("reward_requests")
+.select("*")
+.eq("uid",player.uid)
+.eq("status","Approved");
+
+
+let data="<h2>🎁 REDEEM HISTORY</h2>";
+
+
+if(error){
+
+data+="<p>Error Loading History</p>";
+console.log(error);
+return;
+
+}
+
+
+if(history.length==0){
+
+data+="<p>No Rewards Redeemed</p>";
+
+}
+
+
+history.forEach(r=>{
+
+data+=`
+
+<div class="card">
+
+<h3>🎁 ${r.reward}</h3>
+
+<p>💰 Used Coins: ${r.cost}</p>
+
+<p>✅ Status: ${r.status}</p>
+
+<p>🔑 Redeem Code: ${r.redeem_code}</p>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("tournamentData").innerHTML=data;
+
+}
 
 
 async function sendCoinRequest(){
@@ -1563,6 +1622,140 @@ data += `
 box.innerHTML = data;
 
 }
+
+async function viewRewardRequests(){
+
+let box = document.getElementById("adminData");
+
+box.innerHTML = "Loading Reward Requests...";
+
+
+let {data:requests,error}=await supabaseClient
+.from("reward_requests")
+.select("*");
+
+
+if(error){
+
+box.innerHTML="Error Loading Rewards";
+console.log(error);
+return;
+
+}
+
+
+let data="<h2>🎁 REWARD REQUESTS</h2>";
+
+
+if(requests.length==0){
+
+data+="<p>No Requests</p>";
+
+}
+
+
+requests.forEach(r=>{
+
+data+=`
+
+<div class="card">
+
+<p>👤 Name: ${r.name}</p>
+
+<p>UID: ${r.uid}</p>
+
+<p>🎁 Reward: ${r.reward}</p>
+
+<p>💰 Cost: ${r.cost} Coins</p>
+
+<p>Status: ${r.status}</p>
+
+<input id="code${r.id}" placeholder="Redeem Code">
+
+
+<button onclick="approveReward('${r.id}')">
+✅ APPROVE + CODE
+</button>
+
+
+</div>
+
+`;
+
+});
+
+
+box.innerHTML=data;
+
+}
+
+async function approveReward(id){
+
+let code = document.getElementById("code"+id).value;
+
+
+if(code==""){
+
+alert("Redeem Code Dalo");
+return;
+
+}
+
+
+let {data:request,error}=await supabaseClient
+.from("reward_requests")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(error || !request){
+
+alert("Request Not Found");
+return;
+
+}
+
+
+// coins minus
+let {data:player}=await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",request.uid)
+.single();
+
+
+if(player){
+
+await supabaseClient
+.from("players")
+.update({
+coins: player.coins - request.cost
+})
+.eq("uid",request.uid);
+
+}
+
+
+// request update
+
+await supabaseClient
+.from("reward_requests")
+.update({
+
+status:"Approved",
+redeem_code:code
+
+})
+.eq("id",id);
+
+
+alert("Reward Approved 🎁");
+
+viewRewardRequests();
+
+}
+
 
 async function approveRequest(id){
 
