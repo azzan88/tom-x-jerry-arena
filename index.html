@@ -1374,22 +1374,28 @@ viewCoinRequests();
 }
 
 
-function rejectRequest(index){
+async function rejectRequest(id){
 
-let requests =
-JSON.parse(localStorage.getItem("coinRequests"));
-
-
-requests[index].status="Rejected";
-
-
-localStorage.setItem(
-"coinRequests",
-JSON.stringify(requests)
-);
+let {error} = await supabaseClient
+.from("coin_requests")
+.update({
+status:"Rejected"
+})
+.eq("id",id);
 
 
-alert("Request Rejected");
+if(error){
+
+alert("Reject Error");
+console.log(error);
+return;
+
+}
+
+
+alert("Request Rejected ❌");
+
+viewCoinRequests();
 
 }
 function logout(){
