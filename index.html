@@ -105,6 +105,21 @@ border-top:1px solid #444;
 .hide{
 display:none;
   }
+  .bottomNav{
+display:flex;
+gap:8px;
+margin-top:15px;
+background:#111;
+padding:10px;
+border-radius:20px;
+box-shadow:0 0 20px red;
+}
+
+.bottomNav button{
+font-size:12px;
+padding:10px 5px;
+margin:0;
+}
 
 </style>
 
@@ -188,17 +203,24 @@ LOGIN
   
   <p id="showRank"></p>
   <p id="showRate"></p>
+<div id="playerContent"></div>
+
+<div class="bottomNav">
+
 <button onclick="showTournament()">
-🏆 TOURNAMENT
+🏆<br>Tournament
 </button>
-  <button onclick="viewRooms()">
-⭐ STAR ROOM
-  </button>
-  <button onclick="buyCoinsBox()">
-💰 BUY COINS
-  </button>
-<button onclick="joinTournament()">
-🎮 JOIN TOURNAMENT
+
+<button onclick="viewRooms()">
+⭐<br>Star Room
+</button>
+
+<button onclick="buyCoinsBox()">
+💰<br>Buy Coins
+</button>
+
+<button onclick="showRewards()">
+🎁<br>Rewards
 </button>
   
 <div id="tournamentData"></div>
