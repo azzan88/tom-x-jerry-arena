@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+.<!DOCTYPE html>
 <html>
 <head>
 <title>🔥 TOM X JERRY ARENA 🔥</title>
@@ -268,6 +268,9 @@ LOGIN
   </button>
   <button onclick="viewCoinRequests()">
 💰 BUY COIN REQUESTS
+  </button>
+  <button onclick="viewRewardRequests()">
+🎁 REWARD REQUESTS
   </button>
   <button onclick="createRoomBox()">
 ⭐ CREATE STAR ROOM
@@ -1314,9 +1317,187 @@ return;
 alert("Request Sent 💰");
 
 }
+async function redeemReward(reward,cost){
+
+let player = JSON.parse(localStorage.getItem("player"));
+
+if(!player){
+alert("Login First");
+return;
+}
 
 
+if(player.coins < cost){
 
+alert("Not Enough Coins ❌");
+return;
+
+}
+
+
+// coins minus
+let newCoins = player.coins - cost;
+
+
+// online coins update
+await supabaseClient
+.from("players")
+.update({
+coins:newCoins
+})
+.eq("uid",player.uid);
+
+
+// reward request save
+let {error}=await supabaseClient
+.from("reward_requests")
+.insert([
+{
+name:player.name,
+uid:player.uid,
+reward:reward,
+cost:cost,
+status:"Pending",
+date:new Date().toLocaleDateString()
+}
+]);
+
+
+if(error){
+
+console.log(error);
+alert("Request Error");
+return;
+
+}
+
+
+// local update
+player.coins=newCoins;
+
+localStorage.setItem(
+"player",
+JSON.stringify(player)
+);
+
+
+document.getElementById("showCoins").innerHTML =
+"💰 Coins: "+newCoins;
+
+
+alert("Reward Request Sent 🎁");
+
+}
+
+async function viewRewardRequests(){
+
+let box = document.getElementById("adminData");
+
+box.innerHTML="Loading Reward Requests...";
+
+
+let {data:requests,error}=await supabaseClient
+.from("reward_requests")
+.select("*");
+
+
+if(error){
+
+box.innerHTML="Error Loading Rewards";
+console.log(error);
+return;
+
+}
+
+
+let html="<h2>🎁 REWARD REQUESTS</h2>";
+
+
+if(requests.length==0){
+
+html+="<p>No Requests</p>";
+
+}
+
+
+requests.forEach(r=>{
+
+html+=`
+
+<div class="card">
+
+<p>👤 ${r.name}</p>
+
+<p>UID: ${r.uid}</p>
+
+<p>🎁 Reward: ${r.reward}</p>
+
+<p>💰 Cost: ${r.cost} Coins</p>
+
+<p>Status: ${r.status}</p>
+
+
+<input id="code${r.id}" placeholder="Enter Redeem Code">
+
+
+<button onclick="approveReward('${r.id}')">
+✅ ACCEPT
+</button>
+
+
+<button onclick="rejectReward('${r.id}')">
+❌ REJECT
+</button>
+
+
+</div>
+
+`;
+
+});
+
+
+box.innerHTML=html;
+
+  }
+
+async function showRewards(){
+
+document.getElementById("tournamentData").innerHTML = `
+
+<h2>🎁 REWARDS</h2>
+
+<div class="card">
+
+<h3>💎 Free Fire Diamonds</h3>
+
+<p>13 Diamonds</p>
+<p>Price: 21 Coins</p>
+
+<button onclick="requestReward(13,21)">
+REDEEM
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>💎 Free Fire Diamonds</h3>
+
+<p>35 Diamonds</p>
+<p>Price: 52 Coins</p>
+
+<button onclick="requestReward(35,52)">
+REDEEM
+</button>
+
+</div>
+
+`;
+
+}
+  
 
 
 async function viewCoinRequests(){
