@@ -1092,37 +1092,7 @@ CREATE ROOM
 
 
 
-function createRoom(){
 
-let rooms =
-JSON.parse(localStorage.getItem("rooms")) || [];
-
-
-let room={
-
-name:document.getElementById("roomName").value,
-
-id:document.getElementById("roomID").value,
-
-pass:document.getElementById("roomPass").value,
-
-status:"Active"
-
-};
-
-
-rooms.push(room);
-
-
-localStorage.setItem(
-"rooms",
-JSON.stringify(rooms)
-);
-
-
-alert("Star Room Created ⭐");
-
-}
   function viewRooms(){
 
 let rooms =
@@ -1167,7 +1137,49 @@ data+=`
 document.getElementById("tournamentData").innerHTML=data;
 
   }
-  function buyCoinsBox(){
+  functiasync function createRoom(){
+
+let room = {
+
+name: document.getElementById("roomName").value,
+
+room_id: document.getElementById("roomID").value,
+
+pass: document.getElementById("roomPass").value,
+
+status:"Active"
+
+};
+
+
+if(room.name=="" || room.room_id=="" || room.pass==""){
+
+alert("Fill Details");
+return;
+
+}
+
+
+let {error} = await supabaseClient
+.from("rooms")
+.insert([
+room
+]);
+
+
+if(error){
+
+console.log(error);
+alert("Room Create Error");
+return;
+
+}
+
+
+alert("Star Room Created ⭐");
+  }
+ 
+async function buyCoinsBox(){
 
 document.getElementById("tournamentData").innerHTML=`
 
