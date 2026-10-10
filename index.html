@@ -1244,6 +1244,67 @@ alert("Request Sent 💰");
 
 
 async function viewCoinRequests(){
+
+let box = document.getElementById("adminData");
+
+box.innerHTML = "Loading Coin Requests...";
+
+
+let {data:requests,error} = await supabaseClient
+.from("coin_requests")
+.select("*");
+
+
+if(error){
+
+box.innerHTML = "Error Loading Requests";
+console.log(error);
+return;
+
+}
+
+
+let data = "<h2>💰 COIN REQUESTS</h2>";
+
+
+if(requests.length==0){
+
+data += "<p>No Requests</p>";
+
+}
+
+
+requests.forEach(r=>{
+
+data += `
+
+<div>
+
+<p>👤 ${r.name}</p>
+<p>UID: ${r.uid}</p>
+<p>💰 Amount: ${r.amount}</p>
+<p>🧾 ID: ${r.transaction}</p>
+<p>Status: ${r.status}</p>
+
+<button onclick="approveRequest('${r.id}')">
+✅ APPROVE
+</button>
+
+<button onclick="rejectRequest('${r.id}')">
+❌ REJECT
+</button>
+
+</div>
+
+<hr>
+
+`;
+
+});
+
+
+box.innerHTML = data;
+
 }
 
 function approveRequest(index){
