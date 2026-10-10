@@ -14,7 +14,7 @@ eruda.init();
 
 *{
 box-sizing:border-box;
-font-family:Arial;
+font-family:'Arial',sans-serif;
 }
 
 body{
@@ -23,46 +23,88 @@ min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle,#ff0000,#000);
+background:
+radial-gradient(circle at top,#ff1a1a,#050505 60%);
 color:white;
 }
 
 .container{
 width:95%;
 max-width:420px;
-background:#111;
+background:rgba(15,15,15,0.95);
 padding:20px;
-border-radius:20px;
-box-shadow:0 0 25px red;
+border-radius:25px;
+box-shadow:
+0 0 20px red,
+inset 0 0 20px rgba(255,0,0,0.2);
+border:1px solid rgba(255,255,255,0.1);
 text-align:center;
 }
 
 h1{
 color:#ffcc00;
+text-shadow:0 0 10px orange;
 }
 
-input,button{
-width:100%;
-padding:13px;
-margin:8px 0;
-border:none;
-border-radius:10px;
+h2{
+color:#fff;
+}
+
+p{
+color:#ddd;
 }
 
 input{
-background:#222;
+width:100%;
+padding:14px;
+margin:8px 0;
+border-radius:12px;
+border:1px solid #444;
+background:#181818;
 color:white;
+outline:none;
+}
+
+input:focus{
+border-color:#ffcc00;
+box-shadow:0 0 10px #ffcc00;
 }
 
 button{
-background:linear-gradient(45deg,red,orange);
+width:100%;
+padding:14px;
+margin:8px 0;
+border:none;
+border-radius:14px;
+background:linear-gradient(45deg,#ff0000,#ff9900);
 color:white;
 font-weight:bold;
+font-size:15px;
+box-shadow:0 0 12px rgba(255,0,0,.7);
+transition:.2s;
+}
+
+button:active{
+transform:scale(.96);
+}
+
+.card{
+background:#181818;
+border-radius:15px;
+padding:15px;
+margin:10px 0;
+border:1px solid #333;
+box-shadow:0 0 12px rgba(255,0,0,.4);
+}
+
+hr{
+border:0;
+border-top:1px solid #444;
 }
 
 .hide{
 display:none;
-}
+  }
 
 </style>
 
