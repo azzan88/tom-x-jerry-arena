@@ -1157,11 +1157,8 @@ CREATE ROOM
 }
 
 
+async function createRoom(){
 
-
-  
-  
-  async function createRoom(){
 let room = {
 
 name: document.getElementById("roomName").value,
@@ -1178,56 +1175,6 @@ status:"Active"
 if(room.name=="" || room.room_id=="" || room.pass==""){
 
 alert("Fill Details");
-return;
-
-}
-
-async function viewRooms(){
-
-let {data:rooms,error}=await supabaseClient
-.from("rooms")
-.select("*")
-.eq("status","Active");
-
-
-let data="<h2>⭐ STAR ROOMS</h2>";
-
-if(error){
-data+="<p>Error Loading Rooms</p>";
-console.log(error);
-return;
-}
-
-
-if(rooms.length==0){
-data+="<p>No Rooms Available</p>";
-}
-
-
-rooms.forEach(r=>{
-
-data+=`
-
-<div>
-
-<p>⭐ ${r.name}</p>
-
-<p>🆔 Room ID: ${r.room_id}</p>
-
-<p>🔑 Password: ${r.pass}</p>
-
-</div>
-
-<hr>
-
-`;
-
-});
-
-
-document.getElementById("tournamentData").innerHTML=data;
-
-}lert("Fill Details");
 return;
 
 }
@@ -1250,7 +1197,62 @@ return;
 
 
 alert("Star Room Created ⭐");
-  }
+
+}
+
+
+
+async function viewRooms(){
+
+let {data:rooms,error}=await supabaseClient
+.from("rooms")
+.select("*")
+.eq("status","Active");
+
+
+let data="<h2>⭐ STAR ROOMS</h2>";
+
+
+if(error){
+
+data+="<p>Error Loading Rooms</p>";
+console.log(error);
+return;
+
+}
+
+
+if(!rooms || rooms.length==0){
+
+data+="<p>No Rooms Available</p>";
+
+}
+
+
+rooms.forEach(r=>{
+
+data+=`
+
+<div class="card">
+
+<p>⭐ ${r.name}</p>
+
+<p>🆔 Room ID: ${r.room_id}</p>
+
+<p>🔑 Password: ${r.pass}</p>
+
+</div>
+
+<hr>
+
+`;
+
+});
+
+
+document.getElementById("tournamentData").innerHTML=data;
+
+}
   
  
 async function buyCoinsBox(){
