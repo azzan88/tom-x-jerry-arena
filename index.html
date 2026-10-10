@@ -1238,64 +1238,18 @@ return;
 alert("Request Sent 💰");
 
 }
-  function viewCoinRequests(){
-
-let requests =
-JSON.parse(localStorage.getItem("coinRequests")) || [];
-
-let data="<h2>💰 COIN REQUESTS</h2>";
 
 
-if(requests.length==0){
 
-data+="<p>No Requests</p>";
 
+
+async function viewCoinRequests(){
 }
-
-
-requests.forEach((r,i)=>{
-
-data+=`
-
-<div>
-
-<p>👤 ${r.name}</p>
-<p>UID: ${r.uid}</p>
-<p>💰 Amount: ${r.amount}</p>
-<p>🧾 ID: ${r.transaction}</p>
-<p>Status: ${r.status}</p>
-
-
-<button onclick="approveRequest(${i})">
-✅ APPROVE
-</button>
-
-
-<button onclick="rejectRequest(${i})">
-❌ REJECT
-</button>
-
-
-</div>
-
-<hr>
-
-`;
-
-});
-
-
-document.getElementById("adminData").innerHTML=data;
-
-}
-
-
 
 function approveRequest(index){
 
 let requests =
 JSON.parse(localStorage.getItem("coinRequests"));
-
 
 let r=requests[index];
 
