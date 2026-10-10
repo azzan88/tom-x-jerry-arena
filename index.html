@@ -682,11 +682,31 @@ alert("Tournament Deleted");
 }
   function changeTournamentStatus(){
 
-let t =
-JSON.parse(localStorage.getItem("tournament"));
+let t = JSON.parse(localStorage.getItem("tournament"));
 
+if(!t){
+alert("No Tournament");
+return;
+}
 
 if(t.status=="Upcoming"){
+t.status="Live";
+}
+else if(t.status=="Live"){
+t.status="Completed";
+}
+else{
+t.status="Upcoming";
+}
+
+localStorage.setItem(
+"tournament",
+JSON.stringify(t)
+);
+
+alert("Status Updated 🔄");
+
+  }
 
 
   async function joinTournament(){
