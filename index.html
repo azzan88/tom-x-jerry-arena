@@ -231,7 +231,9 @@ LOGIN
 <button onclick="showRewards()">
 🎁<br>Rewards
 </button>
-
+<button onclick="showRewardHistory()">
+📜<br>History
+</button>
 <button onclick="logout()">
 🚪<br>Logout
 </button>
@@ -1324,6 +1326,59 @@ data+=`
 
 
 document.getElementById("tournamentData").innerHTML=data;
+
+}
+
+async function showRewardHistory(){
+
+let player = JSON.parse(localStorage.getItem("player"));
+
+if(!player){
+alert("Login First");
+return;
+}
+
+
+let {data:history}=await supabaseClient
+.from("reward_requests")
+.select("*")
+.eq("uid",player.uid)
+.eq("status","Approved");
+
+
+let html="<h2>📜 REWARD HISTORY</h2>";
+
+
+if(!history || history.length==0){
+
+html+="<p>No History</p>";
+
+}
+
+else{
+
+history.forEach(r=>{
+
+html+=`
+
+<div class="card">
+
+<h3>🎁 ${r.reward}</h3>
+
+<p>✅ Approved</p>
+
+<p>🔑 Code: ${r.redeem_code}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+document.getElementById("tournamentData").innerHTML=html;
 
 }
 
