@@ -1177,6 +1177,11 @@ status:"Active"
 
 if(room.name=="" || room.room_id=="" || room.pass==""){
 
+alert("Fill Details");
+return;
+
+}
+
 async function viewRooms(){
 
 let {data:rooms,error}=await supabaseClient
