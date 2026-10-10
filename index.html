@@ -1307,48 +1307,71 @@ box.innerHTML = data;
 
 }
 
-function approveRequest(index){
+async function approveRequest(id){
 
-let requests =
-JSON.parse(localStorage.getItem("coinRequests"));
-
-let r=requests[index];
-
-
-let players =
-JSON.parse(localStorage.getItem("players")) || [];
+let {data:request,error} = await supabaseClient
+.from("coin_requests")
+.select("*")
+.eq("id",id)
+.single();
 
 
-players.forEach(p=>{
+if(error || !request){
 
-if(p.uid==r.uid){
-
-p.coins += r.amount;
+alert("Request Not Found");
+return;
 
 }
 
-});
+
+let {data:player,error:playerError} = await supabaseClient
+.from("players")
+.select("*")
+.eq("uid",request.uid)
+.single();
 
 
-localStorage.setItem(
-"players",
-JSON.stringify(players)
-);
+if(playerError || !player){
+
+alert("Player Not Found");
+return;
+
+}
 
 
-requests[index].status="Approved";
+let newCoins = (player.coins || 0) + request.amount;
 
 
-localStorage.setItem(
-"coinRequests",
-JSON.stringify(requests)
-);
+let {error:updateError} = await supabaseClient
+.from("players")
+.update({
+coins:newCoins
+})
+.eq("uid",request.uid);
+
+
+if(updateError){
+
+alert("Coin Update Error");
+console.log(updateError);
+return;
+
+}
+
+
+await supabaseClient
+.from("coin_requests")
+.update({
+status:"Approved"
+})
+.eq("id",id);
 
 
 alert("Coins Added 💰");
 
-}
+viewCoinRequests();
 
+}
 
 
 function rejectRequest(index){
